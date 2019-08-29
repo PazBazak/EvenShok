@@ -134,33 +134,6 @@ public class Player : MonoBehaviour
         Destroy(collisionObject.gameObject);
     }
 
-    private void Update()
-    {
-        DisplayLives();
-
-        if (!isDead)
-        {
-            score += Time.deltaTime;
-        }
-
-        else
-        {
-            for (int index = 2; index > -1; index--)
-            {
-                heartPictures[index].gameObject.SetActive(false);
-            }
-        }
-
-        if (score > PlayerPrefs.GetFloat(Consts.HIGH_SCORE))
-        {
-            // If the score is higher than highscore then its now the highscore
-            PlayerPrefs.SetFloat(Consts.HIGH_SCORE, score);
-        }
-
-        scoreTxt.text = Consts.TIME_SURVIVED + (int)score;
-        timeText.text = Consts.TIME + (int)score;
-    }
-
     /// <summary>
     /// Displays lives
     /// </summary>
@@ -181,37 +154,70 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Called a fixed amount of times on a fixed span life
+    /// <summary>
+    /// Called a fixed amount of times on a fixed span life
+    /// </summary>
     void FixedUpdate()
     {
+        // Displays hearts
+        DisplayLives();
+
+        // As long as the player is not dead, update score and enable movement
         if (!isDead)
         {
-            // Getting input for horizontal 
-            horizontal = Input.GetAxis(Consts.HORIZONTAL);
+            // Updates score
+            score += Time.fixedDeltaTime;
 
-            if (Input.GetMouseButton(0))
-            {
-                // Move right
-                if (Input.mousePosition.x > Screen.width / 2)
-                {
-                    horizontal = 1;
-                }
-                else
-                {
-                    horizontal = -1;
-                }
-            }
-
-            Movements(horizontal);
-            ChangeDirection(horizontal);
+            // Controls movement
+            Movements();
         }
+
+        // Else dont display hearts
+        else
+        {
+            for (int index = 2; index > -1; index--)
+            {
+                heartPictures[index].gameObject.SetActive(false);
+            }
+        }
+
+        // If the player broke the high score, update the high score
+        if (score > PlayerPrefs.GetFloat(Consts.HIGH_SCORE))
+        {
+            PlayerPrefs.SetFloat(Consts.HIGH_SCORE, score);
+        }
+
+        scoreTxt.text = Consts.TIME_SURVIVED + (int)score;
+        timeText.text = Consts.TIME + (int)score;
     }
 
-    // Chaning direction of player
-    private void ChangeDirection(float x)
+    private void Movements()
+    {
+        // Getting input for horizontal 
+        horizontal = Input.GetAxis(Consts.HORIZONTAL);
+
+        // If the player is using a mouse
+        if (Input.GetMouseButton(0))
+        {
+            // If the mouse click was on the right side of the screen, move right, else move left
+            horizontal = (Input.mousePosition.x > Screen.width / 2) ? 1 : -1;
+        }
+
+        // Player going left/right by the inputs
+        myPlayer.velocity = new Vector2(horizontal * Consts.speed, myPlayer.velocity.y);
+
+        Dash();
+
+        ChangeDirection();
+    }
+
+    /// <summary>
+    /// Changes direction of player
+    /// </summary>
+    private void ChangeDirection()
     {
         // If you go right but facing left or the oppsite then switch
-        if (x > 0 && !isFacingRight || x < 0 && isFacingRight)
+        if (horizontal > 0 && !isFacingRight || horizontal < 0 && isFacingRight)
         {
             // Flipping boolean value
             isFacingRight = !isFacingRight;
@@ -227,23 +233,13 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Movements(float x)
-    {
-        // Player going left/right by the inputs
-        myPlayer.velocity = new Vector2(x * Consts.speed, myPlayer.velocity.y);
-        Dash();
-
-    }
+    /// <summary>
+    /// Player dash function
+    /// </summary>
     private void Dash()
     {
-        if (isFacingRight)
-        {
-            direction = 1f;
-        }
-        else
-        {
-            direction = -1f;
-        }
+        // If isFacingRight, direction=1f, else direction=-1f
+        direction = isFacingRight ? 1f : -1f;
 
         if (Input.GetKeyDown(KeyCode.F))
         {
