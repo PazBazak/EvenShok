@@ -27,6 +27,7 @@ namespace Assets.Scripts
         public const string HORIZONTAL = "Horizontal";
         public const string NEVER = "NEVER";
         public const string PLAY_SCENE = "Falling rock paper scissors";
+        public const string OPTIONS = "OptionMenu";
 
         // Speed of player
         public const float speed = 7.2f;
