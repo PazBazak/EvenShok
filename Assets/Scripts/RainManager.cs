@@ -67,7 +67,7 @@ public class RainManager : MonoBehaviour
             // Making the clone child of object to be more orginized
             spawnedObject.transform.SetParent(CanvasRef);
 
-            spawnedObject.AddComponent<CDest>();
+            spawnedObject.AddComponent<DestroyOnGround>();
 
             // Game stages
             if (Time.time > 2)

@@ -40,6 +40,9 @@ public class Player : MonoBehaviour
     // Holding the rock/ paper/ scissors pictures
     public Sprite[] pictureTypeList = new Sprite[3];
 
+    // Holding refrence to the dash effect
+    public GameObject dashEffect;
+    
     public bool isDead;
     public DeathMenu deathMenu;
     public float score;
@@ -54,9 +57,8 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Functions
-
-    // Right after the Awake
-    void Start()
+    
+    private void Awake()
     {
         // Just for the first time the game runs it makes an highscore file 
         if (!PlayerPrefs.HasKey(Consts.HIGH_SCORE))
@@ -64,6 +66,11 @@ public class Player : MonoBehaviour
             // And sets it to zero
             PlayerPrefs.SetFloat(Consts.HIGH_SCORE, 0);
         }
+    }
+
+    // Right after the Awake
+    void Start()
+    {
 
         // At the start the player is alive
         isDead = false;
@@ -224,22 +231,8 @@ public class Player : MonoBehaviour
     {
         // Player going left/right by the inputs
         myPlayer.velocity = new Vector2(x * Consts.speed, myPlayer.velocity.y);
-
         Dash();
 
-        // If space is pressed and the player speed is decreasing or standing still on Y
-        if (Input.GetKeyDown(KeyCode.Space) && myPlayer.velocity.y <= 0)
-        {
-            // Putting a ray of detecting collision from position - 0.6 that is looking down and telling baout the impact 0.1 from the Ground layer
-            RaycastHit2D hit2d = Physics2D.Raycast(myPlayer.position - new Vector2(0f, 0.6f), Vector2.down, 0.1f, ground);
-
-            // If interacted ( is grounded )
-            if (hit2d)
-            {
-                // Add jumpforce velocity to Y axix
-                myPlayer.velocity = new Vector2(myPlayer.velocity.x, Consts.JumpForce);
-            }
-        }
     }
     private void Dash()
     {

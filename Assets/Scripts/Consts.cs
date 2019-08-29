@@ -21,7 +21,7 @@ namespace Assets.Scripts
         public const string SOUND = "Sound";
         public const string GROUND = "Ground";
         public const string MENU = "Menu";
-        public const string HIGH_SCORE = "HighScore";
+        public const string HIGH_SCORE = "HighScore ";
         public const string TIME_SURVIVED = "Time survived : ";
         public const string TIME = "Time : ";
         public const string HORIZONTAL = "Horizontal";
