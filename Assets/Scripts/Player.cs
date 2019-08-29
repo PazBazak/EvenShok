@@ -24,9 +24,6 @@ public class Player : MonoBehaviour
     // If facing right or no
     private bool Right;
 
-    // Jumpheight
-    private float JumpForce = 7f;
-
     // The ground layer ref
     private LayerMask Ground;
 
@@ -45,6 +42,8 @@ public class Player : MonoBehaviour
 
     // Holding the rock/ paper/ scissors pictures
     public Sprite[] RPS = new Sprite[3];
+
+    public GameObject dashEffect;
 
     public bool isDead;
     public DeathMenu DeathMenu;
@@ -233,22 +232,8 @@ public class Player : MonoBehaviour
     {
         // Player going left/right by the inputs
         MyPlayer.velocity = new Vector2(x * speed, MyPlayer.velocity.y);
-
         Dash();
 
-        // If space is pressed and the player speed is decreasing or standing still on Y
-        if (Input.GetKeyDown(KeyCode.Space) && MyPlayer.velocity.y <= 0)
-        {
-            // Putting a ray of detecting collision from position - 0.6 that is looking down and telling baout the impact 0.1 from the Ground layer
-            RaycastHit2D hit2d = Physics2D.Raycast(MyPlayer.position - new Vector2(0f, 0.6f), Vector2.down, 0.1f, Ground);
-
-            // If interacted ( is grounded )
-            if (hit2d)
-            {
-                // Add jumpforce velocity to Y axix
-                MyPlayer.velocity = new Vector2(MyPlayer.velocity.x, JumpForce);
-            }
-        }
     }
     private void Dash()
     {
@@ -263,8 +248,10 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F))
         {
-            MyPlayer.velocity = new Vector2(speed * 15 * direction, MyPlayer.velocity.y);
+            //Instantiate(dashEffect, MyPlayer.transform.position, Quaternion.identity);
+            MyPlayer.velocity = new Vector2(speed * 15 * direction, MyPlayer.velocity.y);                          
         }
+        
     }
 
     private void Death()

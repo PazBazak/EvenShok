@@ -424,10 +424,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPlayer: 0
+  currentEnemy: 0
   RPS:
   - {fileID: 21300000, guid: 7764ef621c3d35a439052a996aec3004, type: 3}
   - {fileID: 21300000, guid: 57d2ca58f27943248954d777f3b01d72, type: 3}
   - {fileID: 21300000, guid: 51851c1555e587d42acd994d5e7f1451, type: 3}
+  dashEffect: {fileID: 100008, guid: ff9eb0a0f9983744eb282f0506ed5d7f, type: 3}
   isDead: 0
   DeathMenu: {fileID: 592084700}
   score: 0

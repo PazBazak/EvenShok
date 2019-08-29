@@ -6,7 +6,7 @@ using Assets.Scripts;
 /// <summary>
 /// class contains a function that destroys enemies when touching the ground
 /// </summary>
-public class CDest : MonoBehaviour
+public class DestroyOnGround : MonoBehaviour
 {
     #region Functions
 
