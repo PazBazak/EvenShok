@@ -96,6 +96,43 @@ public class Player : MonoBehaviour
         ground = LayerMask.GetMask(Consts.GROUND);
     }
 
+    /// <summary>
+    /// Called a fixed amount of times on a fixed span life
+    /// </summary>
+    void FixedUpdate()
+    {
+        // As long as the player is not dead, update score and enable movement
+        if (!isDead)
+        {
+            // Updates score
+            score += Time.fixedDeltaTime;
+
+            // Controls movement
+            Movements();
+        }
+
+        // Else dont display hearts
+        else
+        {
+            for (int index = 2; index > -1; index--)
+            {
+                heartPictures[index].gameObject.SetActive(false);
+            }
+        }
+
+        // Displays hearts
+        DisplayLives();
+
+        // If the player broke the high score, update the high score
+        if (score > PlayerPrefs.GetFloat(Consts.HIGH_SCORE))
+        {
+            PlayerPrefs.SetFloat(Consts.HIGH_SCORE, score);
+        }
+
+        scoreTxt.text = Consts.TIME_SURVIVED + (int)score;
+        timeText.text = Consts.TIME + (int)score;
+    }
+
     private void OnCollisionEnter2D(Collision2D collisionObject)
     {
         if (!collisionObject.gameObject.tag.Equals(Consts.GROUND))
@@ -125,13 +162,20 @@ public class Player : MonoBehaviour
         else if (currentPlayer == currentEnemy)
         {
             lives--;
+            if (lives == 0)
+            {
+                isDead = true;
+            }
         }
         else if (currentPlayer == PossibleType.Scissors && currentEnemy == PossibleType.Rock)
         {
             Death();
         }
 
-        Destroy(collisionObject.gameObject);
+        if (!isDead)
+        {
+            Destroy(collisionObject.gameObject);
+        }
     }
 
     /// <summary>
@@ -152,43 +196,6 @@ public class Player : MonoBehaviour
                 heartPictures[2].gameObject.SetActive(false);
                 break;
         }
-    }
-
-    /// <summary>
-    /// Called a fixed amount of times on a fixed span life
-    /// </summary>
-    void FixedUpdate()
-    {
-        // Displays hearts
-        DisplayLives();
-
-        // As long as the player is not dead, update score and enable movement
-        if (!isDead)
-        {
-            // Updates score
-            score += Time.fixedDeltaTime;
-
-            // Controls movement
-            Movements();
-        }
-
-        // Else dont display hearts
-        else
-        {
-            for (int index = 2; index > -1; index--)
-            {
-                heartPictures[index].gameObject.SetActive(false);
-            }
-        }
-
-        // If the player broke the high score, update the high score
-        if (score > PlayerPrefs.GetFloat(Consts.HIGH_SCORE))
-        {
-            PlayerPrefs.SetFloat(Consts.HIGH_SCORE, score);
-        }
-
-        scoreTxt.text = Consts.TIME_SURVIVED + (int)score;
-        timeText.text = Consts.TIME + (int)score;
     }
 
     private void Movements()
