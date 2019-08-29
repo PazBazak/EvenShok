@@ -423,21 +423,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eef1761a1938c2b4686250b537fcf321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPlayer: 0
-  currentEnemy: 0
-  RPS:
+  pictureTypeList:
   - {fileID: 21300000, guid: 7764ef621c3d35a439052a996aec3004, type: 3}
   - {fileID: 21300000, guid: 57d2ca58f27943248954d777f3b01d72, type: 3}
   - {fileID: 21300000, guid: 51851c1555e587d42acd994d5e7f1451, type: 3}
-  dashEffect: {fileID: 100008, guid: ff9eb0a0f9983744eb282f0506ed5d7f, type: 3}
   isDead: 0
-  DeathMenu: {fileID: 592084700}
+  deathMenu: {fileID: 592084700}
   score: 0
-  ScoreTxt: {fileID: 1625785966}
-  TimeText: {fileID: 728836766}
-  Heart1: {fileID: 589968161}
-  Heart2: {fileID: 1519943690}
-  Heart3: {fileID: 2021539470}
+  scoreTxt: {fileID: 1625785966}
+  timeText: {fileID: 728836766}
+  heartPictures:
+  - {fileID: 589968161}
+  - {fileID: 1519943690}
+  - {fileID: 2021539470}
 --- !u!61 &251101493
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -13,49 +13,42 @@ public class Player : MonoBehaviour
     #region Data Members
 
     // Refrence to my rigidbody player
-    private Rigidbody2D MyPlayer;
+    private Rigidbody2D myPlayer;
 
     // x input
-    private float Horizontal;
-
-    // Speed of player
-    private float speed = 7.2f;
+    private float horizontal;
 
     // If facing right or no
-    private bool Right;
+    private bool isFacingRight;
 
     // The ground layer ref
-    private LayerMask Ground;
+    private LayerMask ground;
 
     // The player current type
-    public PossibleType currentPlayer;
+    private PossibleType currentPlayer;
 
-    public PossibleType currentEnemy;
+    private PossibleType currentEnemy;
 
     // 1==Rock || 2==Paper || 3=Scissors
-    private int RandomType;
+    private int randomType;
 
     private IEnumerable<PossibleType> possibleTypeList = System.Enum.GetValues(typeof(PossibleType)).Cast<PossibleType>();
 
     // Player sprite rendered refrence
-    private SpriteRenderer PlayerRendered;
+    private SpriteRenderer playerRendered;
 
     // Holding the rock/ paper/ scissors pictures
-    public Sprite[] RPS = new Sprite[3];
-
-    public GameObject dashEffect;
+    public Sprite[] pictureTypeList = new Sprite[3];
 
     public bool isDead;
-    public DeathMenu DeathMenu;
+    public DeathMenu deathMenu;
     public float score;
-    public Text ScoreTxt;
-    public Text TimeText;
+    public Text scoreTxt;
+    public Text timeText;
     private int lives = 3;
 
-    // [SerializeField] private AudioSource Hit;
-    [SerializeField] private Image Heart1;
-    [SerializeField] private Image Heart2;
-    [SerializeField] private Image Heart3;
+    public Image[] heartPictures = new Image[3];
+
     private float direction;
 
     #endregion
@@ -75,25 +68,25 @@ public class Player : MonoBehaviour
         // At the start the player is alive
         isDead = false;
 
-        PlayerRendered = GetComponent<SpriteRenderer>();
+        playerRendered = GetComponent<SpriteRenderer>();
 
         // Picking a starting charecter 
-        RandomType = Random.Range(0, 3);
+        randomType = Random.Range(0, 3);
 
         // CurrentPlayer equals to the PlayerType element at the random index
-        currentPlayer = possibleTypeList.ElementAt(RandomType);
+        currentPlayer = possibleTypeList.ElementAt(randomType);
 
         // Picture equals to the RPS at the random index
-        PlayerRendered.sprite = RPS[RandomType];
+        playerRendered.sprite = pictureTypeList[randomType];
 
         // Gets refrebce to player's body
-        MyPlayer = GetComponent<Rigidbody2D>();
+        myPlayer = GetComponent<Rigidbody2D>();
 
         // At the start the player facing right
-        Right = true;
+        isFacingRight = true;
 
         // Get refrence to Ground Layer (like tagging)
-        Ground = LayerMask.GetMask(Consts.GROUND);
+        ground = LayerMask.GetMask(Consts.GROUND);
     }
 
     private void OnCollisionEnter2D(Collision2D collisionObject)
@@ -117,7 +110,7 @@ public class Player : MonoBehaviour
     private void WinLoseTie(PossibleType currentPlayer, PossibleType currentEnemy, Collision2D collisionObject)
     {
         // If the enemy is bigger than the player by one, call death function
-        if (currentPlayer  == currentEnemy - 1)
+        if (currentPlayer == currentEnemy - 1)
         {
             Death();
         }
@@ -142,11 +135,13 @@ public class Player : MonoBehaviour
         {
             score += Time.deltaTime;
         }
+
         else
         {
-            Heart3.gameObject.SetActive(false);
-            Heart2.gameObject.SetActive(false);
-            Heart1.gameObject.SetActive(false);
+            for (int index = 2; index > -1; index--)
+            {
+                heartPictures[index].gameObject.SetActive(false);
+            }
         }
 
         if (score > PlayerPrefs.GetFloat(Consts.HIGH_SCORE))
@@ -155,10 +150,9 @@ public class Player : MonoBehaviour
             PlayerPrefs.SetFloat(Consts.HIGH_SCORE, score);
         }
 
-        ScoreTxt.text = Consts.TIME_SURVIVED + (int)score;
-        TimeText.text = Consts.TIME + (int)score;
+        scoreTxt.text = Consts.TIME_SURVIVED + (int)score;
+        timeText.text = Consts.TIME + (int)score;
     }
-
 
     /// <summary>
     /// Displays lives
@@ -168,16 +162,14 @@ public class Player : MonoBehaviour
         switch (lives)
         {
             case 0:
-                Heart1.gameObject.SetActive(false);
+                heartPictures[0].gameObject.SetActive(false);
                 Death();
                 break;
-
             case 1:
-                Heart2.gameObject.SetActive(false);
+                heartPictures[1].gameObject.SetActive(false);
                 break;
-
             case 2:
-                Heart3.gameObject.SetActive(false);
+                heartPictures[2].gameObject.SetActive(false);
                 break;
         }
     }
@@ -188,23 +180,23 @@ public class Player : MonoBehaviour
         if (!isDead)
         {
             // Getting input for horizontal 
-            Horizontal = Input.GetAxis(Consts.HORIZONTAL);
+            horizontal = Input.GetAxis(Consts.HORIZONTAL);
 
             if (Input.GetMouseButton(0))
             {
                 // Move right
                 if (Input.mousePosition.x > Screen.width / 2)
                 {
-                    Horizontal = 1;
+                    horizontal = 1;
                 }
                 else
                 {
-                    Horizontal = -1;
+                    horizontal = -1;
                 }
             }
 
-            Movements(Horizontal);
-            ChangeDirection(Horizontal);
+            Movements(horizontal);
+            ChangeDirection(horizontal);
         }
     }
 
@@ -212,10 +204,10 @@ public class Player : MonoBehaviour
     private void ChangeDirection(float x)
     {
         // If you go right but facing left or the oppsite then switch
-        if (x > 0 && !Right || x < 0 && Right)
+        if (x > 0 && !isFacingRight || x < 0 && isFacingRight)
         {
             // Flipping boolean value
-            Right = !Right;
+            isFacingRight = !isFacingRight;
 
             // Getting refrence to X scale value
             Vector3 PlayerScale = transform.localScale;
@@ -231,13 +223,27 @@ public class Player : MonoBehaviour
     private void Movements(float x)
     {
         // Player going left/right by the inputs
-        MyPlayer.velocity = new Vector2(x * speed, MyPlayer.velocity.y);
+        myPlayer.velocity = new Vector2(x * Consts.speed, myPlayer.velocity.y);
+
         Dash();
 
+        // If space is pressed and the player speed is decreasing or standing still on Y
+        if (Input.GetKeyDown(KeyCode.Space) && myPlayer.velocity.y <= 0)
+        {
+            // Putting a ray of detecting collision from position - 0.6 that is looking down and telling baout the impact 0.1 from the Ground layer
+            RaycastHit2D hit2d = Physics2D.Raycast(myPlayer.position - new Vector2(0f, 0.6f), Vector2.down, 0.1f, ground);
+
+            // If interacted ( is grounded )
+            if (hit2d)
+            {
+                // Add jumpforce velocity to Y axix
+                myPlayer.velocity = new Vector2(myPlayer.velocity.x, Consts.JumpForce);
+            }
+        }
     }
     private void Dash()
     {
-        if (Right)
+        if (isFacingRight)
         {
             direction = 1f;
         }
@@ -248,16 +254,14 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F))
         {
-            //Instantiate(dashEffect, MyPlayer.transform.position, Quaternion.identity);
-            MyPlayer.velocity = new Vector2(speed * 15 * direction, MyPlayer.velocity.y);                          
+            myPlayer.velocity = new Vector2(Consts.speed * 15 * direction, myPlayer.velocity.y);
         }
-        
     }
 
     private void Death()
     {
         isDead = true;
-        DeathMenu.ToggleEndMenu();
+        deathMenu.ToggleEndMenu();
     }
 
     #endregion

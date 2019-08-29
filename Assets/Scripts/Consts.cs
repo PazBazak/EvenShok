@@ -12,7 +12,7 @@ namespace Assets.Scripts
     public class Consts
     {
         #region Consts
-
+        
         public const string SPAWN_LOCATION = "SpawnLocation";
         public const string PLAYER = "Player";
         public const string ROCK = "Rock";
@@ -21,12 +21,18 @@ namespace Assets.Scripts
         public const string SOUND = "Sound";
         public const string GROUND = "Ground";
         public const string MENU = "Menu";
-        public const string HIGH_SCORE = "HighScore ";
+        public const string HIGH_SCORE = "HighScore";
         public const string TIME_SURVIVED = "Time survived : ";
         public const string TIME = "Time : ";
         public const string HORIZONTAL = "Horizontal";
         public const string NEVER = "NEVER";
         public const string PLAY_SCENE = "Falling rock paper scissors";
+
+        // Speed of player
+        public const float speed = 7.2f;
+
+        // Jumpheight
+        public const float JumpForce = 7f;
 
         #endregion
     }
