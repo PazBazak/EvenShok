@@ -1358,7 +1358,7 @@ MonoBehaviour:
   NumberScissors: {fileID: 21300000, guid: a8e5e367e0d31ab4491e9eb2d229157d, type: 3}
   Rock: {fileID: 21300000, guid: 7764ef621c3d35a439052a996aec3004, type: 3}
   Paper: {fileID: 21300000, guid: 57d2ca58f27943248954d777f3b01d72, type: 3}
-  Scissors: {fileID: 21300000, guid: efe600e1632339f41a28d171710d1e89, type: 3}
+  Scissors: {fileID: 21300000, guid: 3879154ef78f41444818e9316615ccfd, type: 3}
 --- !u!1 &775214150
 GameObject:
   m_ObjectHideFlags: 0
