@@ -20,7 +20,6 @@ public class DeathMenu : MonoBehaviour
     public GameObject TimeObj;
     public Button PlayAgainBtn;
     public Button MenuBtn;
-
     #endregion
 
     #region Functions
