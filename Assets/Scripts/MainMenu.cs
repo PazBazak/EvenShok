@@ -30,7 +30,7 @@ public class MainMenu : MonoBehaviour
 
     public void ToOptions()
     {
-
+        SceneManager.LoadScene(Consts.OPTIONS);
     }
 
     #endregion

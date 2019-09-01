@@ -70,29 +70,23 @@ public class RainManager : MonoBehaviour
             spawnedObject.AddComponent<DestroyOnGround>();
 
             // Game stages
-            if (Time.time > 2)
+            if (Time.time > 5)
             {
-                timeBetweenSpawns = 0.14f;
-                TextGame(spawnedObject);
-            }
-
-            if (Time.time > 10)
-            {
-                timeBetweenSpawns = 0.14f;
-                NumberGame(spawnedObject);
+                timeBetweenSpawns = 0.24f;
             }
 
             if (Time.time > 15)
             {
-                timeBetweenSpawns = 0.1f;
+                timeBetweenSpawns = 0.20f;
+                NumberGame(spawnedObject);
+            }
+
+            if (Time.time > 25)
+            {
+                timeBetweenSpawns = 0.15f;
                 NormalGame(spawnedObject);
             }
 
-            if (Time.time > 20)
-            {
-                timeBetweenSpawns = 0.1f;
-                NumberGame(spawnedObject);
-            }
         }
     }
 
@@ -120,7 +114,7 @@ public class RainManager : MonoBehaviour
         return randomIndex;
     }
 
-    private void NormalGame(GameObject obj)//////////////////////////////
+    private void NormalGame(GameObject obj)
     {
         obj.GetComponent<SpriteRenderer>().flipY = true;
 
@@ -140,12 +134,12 @@ public class RainManager : MonoBehaviour
         }
     }
 
-    private void TextGame(GameObject obj)/////////////////////////////////////////////2
+    private void TextGame(GameObject obj)
     {
         obj.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
     }
 
-    private void ColorGame(GameObject obj)//////////////////////////////////////////3
+    private void ColorGame(GameObject obj)
     {
         obj.transform.GetChild(1).gameObject.SetActive(true);
     }
