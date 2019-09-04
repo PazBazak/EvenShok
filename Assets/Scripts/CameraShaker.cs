@@ -8,7 +8,8 @@ public class CameraShaker : MonoBehaviour
 
     private Camera myCamera;
 
-    // ADD X power and Y power, also change the function to adjust the X and Y power diffrently! 
+    public float Xpower;
+    public float Ypower;
 
     #endregion
     private void Start()
@@ -21,7 +22,7 @@ public class CameraShaker : MonoBehaviour
     /// <param name="shakeDuration"></param> The shake animation duration
     /// <param name="shakePower"></param> The shake animatuib power
     /// <returns></returns>
-    public IEnumerator Shake (float shakeDuration, float shakePower)
+    public IEnumerator Shake (float shakeDuration)
     {
         Vector3 originalCameraPosition = myCamera.transform.localPosition;  //to save the original camera position
 
@@ -29,8 +30,8 @@ public class CameraShaker : MonoBehaviour
 
         while (timeCounter < shakeDuration) 
         {
-            float x = Random.Range(-shakePower, shakePower);
-            float y = Random.Range(-shakePower, shakePower);
+            float x = Random.Range(-Xpower, Xpower);
+            float y = Random.Range(-Ypower, Ypower);
 
             myCamera.transform.localPosition = new Vector3(x, y, originalCameraPosition.z);  //the new camera position is getting random x and y inputs
 
@@ -46,7 +47,7 @@ public class CameraShaker : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            StartCoroutine(Shake(0.15f, 0.4f));
+            StartCoroutine(Shake(0.15f));
         }
     }
 
