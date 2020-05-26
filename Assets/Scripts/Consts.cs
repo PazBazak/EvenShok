@@ -28,6 +28,16 @@ namespace Assets.Scripts
         public const string NEVER = "NEVER";
         public const string PLAY_SCENE = "Falling rock paper scissors";
         public const string OPTIONS = "OptionMenu";
+        public const string EASY_DIFF = "Easy";
+        public const string MEDIUM_DIFF = "Medium";
+        public const string HARD_DIFF = "Hard";
+        public const string HELL_DIFF = "HELL";
+
+        // Game difficulities values
+        public const float easyDifficulity = 0.14f;
+        public const float mediumDifficulity = 0.10f;
+        public const float hardDifficulity = 0.075f;
+        public const float hellDifficulity = 0.045f;
 
         // Speed of player
         public const float speed = 7.2f;
