@@ -16,10 +16,11 @@ public class RainManager : MonoBehaviour
     #region Data Members
 
     // Array of empty objects to indicate where the rain can possible come from
-    private GameObject[] locationsToSpawn;
+    private GameObject[] locationsToSpawn;    
 
-    // [0]=Paper// [1]=Rock// [2]=Scissors
     public GameObject[] objectToSpawn;
+
+    public CameraShaker cameraShakerScripts;
 
     // Time between another object to spawn 
     private float timeBetweenSpawns = 0.16f;
@@ -27,6 +28,7 @@ public class RainManager : MonoBehaviour
     private float timeBetweenModes = 10f;
 
     private bool isDeadHere;
+
     private float Score;
     private float Timer = 0;
     private int modesCount = 3;  //Number of modes excluding normal game and hell
@@ -34,7 +36,7 @@ public class RainManager : MonoBehaviour
 
     private int lastPrefabIndex = 0;
     private int lastSpawnedIndex = 0;
-    private int lastDiffIndex = 0;
+    private int lastDiffIndex = -1;
 
     public Transform CanvasRef;
     public Sprite NumberRock;// 1
@@ -67,7 +69,7 @@ public class RainManager : MonoBehaviour
     }
 
     void Update()
-    {
+    {       
         // The Score here is the same score as in player's script
         Score = GameObject.Find(Consts.PLAYER).GetComponent<Player>().score;
 
@@ -117,12 +119,13 @@ public class RainManager : MonoBehaviour
 
                 case 2:
                     timeBetweenSpawns = Consts.hardDifficulity;
-                    TimeBetweenSpawnsTxt.text = Consts.HARD_DIFF;
+                    TimeBetweenSpawnsTxt.text = Consts.HARD_DIFF;                    
                     break;
 
                 case 3:
                     timeBetweenSpawns = Consts.hellDifficulity;
                     TimeBetweenSpawnsTxt.text = Consts.HELL_DIFF;
+                    cameraShakerScripts.HellCameraShake();
                     break;
             }     
             
@@ -137,7 +140,7 @@ public class RainManager : MonoBehaviour
         foreach (int i in CurrentStage)
         {
             activeMode = i;
-            yield return new WaitForSeconds(timeBetweenModes);
+            yield return new WaitForSeconds(timeBetweenModes);           
         }
 
         StartCoroutine(HandleStage(GetRandomStageModes(modesCount)));
@@ -190,8 +193,7 @@ public class RainManager : MonoBehaviour
 
 
     private void SwitchCaseBetweenModes(int Case, GameObject obj)
-    {
-        // 0 = NormalGame, 1 = TextGame, 2 = NumberGame, 3 = ColorGame, 4 = HandSignGame ** 
+    {     
         switch (Case)
         {
             case 0:

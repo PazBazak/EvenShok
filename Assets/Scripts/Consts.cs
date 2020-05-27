@@ -34,16 +34,33 @@ namespace Assets.Scripts
         public const string HELL_DIFF = "HELL";
 
         // Game difficulities values
-        public const float easyDifficulity = 0.14f;
-        public const float mediumDifficulity = 0.10f;
-        public const float hardDifficulity = 0.075f;
-        public const float hellDifficulity = 0.045f;
+        public const float easyDifficulity = 0.13f;
+        public const float mediumDifficulity = 0.097f;
+        public const float hardDifficulity = 0.074f;
+        public const float hellDifficulity = 0.05f;
 
         // Speed of player
         public const float speed = 7.2f;
 
         // Jumpheight
         public const float JumpForce = 7f;
+
+        // Camera Shake
+        public const float durationEasyShake = 0.35f;
+        public const float xPowerEasyShake = 0.38f;
+        public const float yPowerEasyShake = 0.18f;
+
+        public const float durationMediumShake = 0.53f;
+        public const float xPowerMediumShake = 0.44f;
+        public const float yPowerMediumShake = 0.24f;
+
+        public const float durationHardShake = 0.73f;
+        public const float xPowerHardShake = 0.48f;
+        public const float yPowerHardShake = 0.28f;
+
+        public const float durationHellShake = 10f;
+        public const float xPowerHellShake = 0.41f;
+        public const float yPowerHellShake = 0.23f;
 
         #endregion
     }

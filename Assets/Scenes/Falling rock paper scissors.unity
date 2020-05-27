@@ -1352,6 +1352,7 @@ MonoBehaviour:
   - {fileID: 1636539496676574, guid: cbf34bcebed557046bf54b02b6d7b6c6, type: 3}
   - {fileID: 1509856717331394, guid: 2d3034f74edad7b47991f781132645ed, type: 3}
   - {fileID: 1734874117447658, guid: f868dca5c5a8a3b42836b079c4c8a8e4, type: 3}
+  cameraShakerScripts: {fileID: 964315120}
   TimeBetweenSpawnsTxt: {fileID: 961284810}
   CanvasRef: {fileID: 833950092}
   NumberRock: {fileID: 21300000, guid: 2dfd52f7eae83fe42ad7480886d568a7, type: 3}
@@ -2022,8 +2023,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be55a82d1cdd1bb4994eed44401cf776, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Xpower: 0.35
-  Ypower: 0.15
 --- !u!1 &1094203123
 GameObject:
   m_ObjectHideFlags: 0

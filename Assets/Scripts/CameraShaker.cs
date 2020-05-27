@@ -1,28 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts;
 
 public class CameraShaker : MonoBehaviour
 {
     #region variables
 
     private Camera myCamera;
-
-    public float Xpower;
-    public float Ypower;
-
+   
     #endregion
-    private void Start()
+    private void Awake()
     {
         myCamera = GetComponent<Camera>();
     }
-    /// <summary>
-    /// Coroutine of shake function
-    /// </summary>
-    /// <param name="shakeDuration"></param> The shake animation duration
-    /// <param name="shakePower"></param> The shake animatuib power
-    /// <returns></returns>
-    public IEnumerator Shake (float shakeDuration)
+   
+    public IEnumerator Shake (float shakeDuration, float xPower, float yPower)
     {
         Vector3 originalCameraPosition = myCamera.transform.localPosition;  //to save the original camera position
 
@@ -30,8 +23,8 @@ public class CameraShaker : MonoBehaviour
 
         while (timeCounter < shakeDuration) 
         {
-            float x = Random.Range(-Xpower, Xpower);
-            float y = Random.Range(-Ypower, Ypower);
+            float x = Random.Range(-xPower, xPower);
+            float y = Random.Range(-yPower, yPower);
 
             myCamera.transform.localPosition = new Vector3(x, y, originalCameraPosition.z);  //the new camera position is getting random x and y inputs
 
@@ -43,12 +36,27 @@ public class CameraShaker : MonoBehaviour
         myCamera.transform.localPosition = originalCameraPosition;
     }
 
-    private void Update()
+
+    public void EasyCameraShake()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartCoroutine(Shake(0.15f));
-        }
+        StartCoroutine(Shake(Consts.durationEasyShake, Consts.xPowerEasyShake, Consts.yPowerEasyShake));
     }
 
+
+    public void MediumCameraShake()
+    {
+        StartCoroutine(Shake(Consts.durationMediumShake, Consts.xPowerMediumShake, Consts.yPowerMediumShake));
+    }
+
+
+    public void HardCameraShake()
+    {
+        StartCoroutine(Shake(Consts.durationHardShake, Consts.xPowerHardShake, Consts.yPowerHardShake));
+    }
+
+
+    public void HellCameraShake()
+    {
+        StartCoroutine(Shake(Consts.durationHellShake, Consts.xPowerHellShake, Consts.yPowerHellShake));
+    }
 }
