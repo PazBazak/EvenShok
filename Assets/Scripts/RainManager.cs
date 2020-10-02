@@ -1,7 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Assets.Scripts;
+using System.Linq;
+using System;
+using UnityRandom = UnityEngine.Random;
+using Random = System.Random;
 
 /// <summary>
 /// Managing rain of enemies
@@ -11,26 +16,44 @@ public class RainManager : MonoBehaviour
     #region Data Members
 
     // Array of empty objects to indicate where the rain can possible come from
-    private GameObject[] locationsToSpawn;
+    private GameObject[] locationsToSpawn;    
 
-    // [0]=Paper// [1]=Rock// [2]=Scissors
-    [SerializeField] GameObject[] objectToSpawn;
+    public GameObject[] objectToSpawn;
+
+    public CameraShaker cameraShakerScripts;
 
     // Time between another object to spawn 
-    float timeBetweenSpawns = 0.04f;
+    private float timeBetweenSpawns = 0.16f;
+    public Text TimeBetweenSpawnsTxt;
+    private float timeBetweenModes = 10f;
 
     private bool isDeadHere;
+
     private float Score;
     private float Timer = 0;
-    private int LastPrefabIndex = 0;
+    private int modesCount = 3;  //Number of modes excluding normal game and hell
+    private int activeMode = 0;      // 0 = NormalGame, 10 = HellGame, 1 = TextGame, 2 = NumberGame, 3 = ColorGame, 4 = HandSignGame ** 
 
-    [SerializeField] private Transform CanvasRef;
-    [SerializeField] private Sprite NumberRock;// 1
-    [SerializeField] private Sprite NumberPaper;// 4
-    [SerializeField] private Sprite NumberScissors;// 7
-    [SerializeField] private Sprite Rock;// 1
-    [SerializeField] private Sprite Paper;// 4
-    [SerializeField] private Sprite Scissors;// 7
+    private int lastPrefabIndex = 0;
+    private int lastSpawnedIndex = 0;
+    private int lastDiffIndex = -1;
+
+    public Transform CanvasRef;
+    public Sprite NumberRock;// 1
+    public Sprite NumberPaper;// 4
+    public Sprite NumberScissors;// 7
+
+    public Sprite Rock;
+    public Sprite Paper;
+    public Sprite Scissors;
+
+    public Sprite TextRock;
+    public Sprite TextPaper;
+    public Sprite TextScissors;
+
+    public Sprite ColorRock;// black
+    public Sprite ColorPaper;// pink
+    public Sprite ColorScissors;// orange
 
     #endregion
 
@@ -40,10 +63,13 @@ public class RainManager : MonoBehaviour
     {
         // Get a refrebce of all the empty game objects tagged with SpawnLocation
         locationsToSpawn = GameObject.FindGameObjectsWithTag(Consts.SPAWN_LOCATION);
+
+        StartCoroutine(HandleStage(GetRandomStageModes(modesCount)));
+        StartCoroutine(HandleDifficulities(GetRandomDifficulities()));
     }
 
     void Update()
-    {
+    {       
         // The Score here is the same score as in player's script
         Score = GameObject.Find(Consts.PLAYER).GetComponent<Player>().score;
 
@@ -52,14 +78,14 @@ public class RainManager : MonoBehaviour
 
         // Counting seconds by adding the time it takes to finish frame each frame so it adds up to 1 second each real time second
         Timer += Time.deltaTime;
-
+     
         // If the timer is bigger than the time between spawns
         if (Timer > timeBetweenSpawns && !isDeadHere)
         {
             GameObject spawnedObject;
 
             // The spawned object is a copy of random object from ObjectsToSpawn var with the starting location of random empty game object from LocationsToSpawn with rotation to ground
-            spawnedObject = Instantiate(objectToSpawn[RandomPrefab()], locationsToSpawn[Random.Range(0, locationsToSpawn.Length)].transform.position, Quaternion.identity) as GameObject;
+            spawnedObject = Instantiate(objectToSpawn[MyRandom(objectToSpawn.Length, ref lastPrefabIndex)], locationsToSpawn[MyRandom(locationsToSpawn.Length, ref lastSpawnedIndex)].transform.position, Quaternion.identity) as GameObject;
 
             // Resets the timer
             Timer = 0;
@@ -69,100 +95,201 @@ public class RainManager : MonoBehaviour
 
             spawnedObject.AddComponent<DestroyOnGround>();
 
-            // Game stages
-            if (Time.time > 5)
-            {
-                timeBetweenSpawns = 0.24f;
-            }
-
-            if (Time.time > 15)
-            {
-                timeBetweenSpawns = 0.20f;
-                NumberGame(spawnedObject);
-            }
-
-            if (Time.time > 25)
-            {
-                timeBetweenSpawns = 0.15f;
-                NormalGame(spawnedObject);
-            }
+            HandleMode(activeMode, spawnedObject);
 
         }
     }
 
-    // Making my own random so it wont spawn 1-1 never
-    private int RandomPrefab()
+
+    IEnumerator HandleDifficulities(int[] stageDifficulities)
     {
-        if (objectToSpawn.Length <= 1)
+        foreach (int i in stageDifficulities)
+        {
+            switch (i)
+            {
+                case 0:
+                    timeBetweenSpawns = Consts.easyDifficulity;
+                    TimeBetweenSpawnsTxt.text = Consts.EASY_DIFF;
+                    break;
+
+                case 1:
+                    timeBetweenSpawns = Consts.mediumDifficulity;
+                    TimeBetweenSpawnsTxt.text = Consts.MEDIUM_DIFF;
+                    break;
+
+                case 2:
+                    timeBetweenSpawns = Consts.hardDifficulity;
+                    TimeBetweenSpawnsTxt.text = Consts.HARD_DIFF;                    
+                    break;
+
+                case 3:
+                    timeBetweenSpawns = Consts.hellDifficulity;
+                    TimeBetweenSpawnsTxt.text = Consts.HELL_DIFF;
+                    cameraShakerScripts.HellCameraShake();
+                    break;
+            }     
+            
+            yield return new WaitForSeconds(timeBetweenModes);
+        }
+        StartCoroutine(HandleDifficulities(GetRandomDifficulities()));
+    }
+
+
+    IEnumerator HandleStage(int[] CurrentStage)
+    {
+        foreach (int i in CurrentStage)
+        {
+            activeMode = i;
+            yield return new WaitForSeconds(timeBetweenModes);           
+        }
+
+        StartCoroutine(HandleStage(GetRandomStageModes(modesCount)));
+    }
+
+
+    private int[] GetRandomStageModes(int modesCount)
+    {
+        Random rnd = new Random();
+      
+        int[] zeroArr = { 0 };
+        int[] hellArr = { 10 };
+        int[] stageArr = Enumerable.Range(1, modesCount).OrderBy(c => rnd.Next()).ToArray();
+        int[] RandomizedStage = (zeroArr.Concat(stageArr).ToArray()).Concat(hellArr).ToArray();
+
+        return RandomizedStage;
+    }
+
+
+    private int[] GetRandomDifficulities()
+    {
+        Random rnd = new Random();
+
+        int[] diffArray = new int[modesCount + 2];
+        for (int i=0; i < diffArray.Length; i++) // TODO: try to change this for to a more sleek one
+        {
+            if (i == modesCount + 1)
+            {
+                // make hellMode always on Hell difficulity
+                diffArray[i] = 3;
+                break;
+            }
+            //0 = Easy, 1 = Medium, 2 = Hard, 3 = HELL
+            diffArray[i] = MyRandom(3, ref lastDiffIndex);
+        }
+        return diffArray;
+    }
+
+
+    private string showArray(int[] myArr)
+    {
+        return string.Join(",", myArr);
+    }
+
+
+    private void HandleMode(int currentMode, GameObject obj)
+    {
+        SwitchCaseBetweenModes(currentMode, obj);
+    }
+
+
+    private void SwitchCaseBetweenModes(int Case, GameObject obj)
+    {     
+        switch (Case)
+        {
+            case 0:
+                NormalGame(obj);
+                break;
+
+            case 1:
+                TextGame(obj);
+                break;
+
+            case 2:
+                NumberGame(obj);
+                break;
+
+            case 3:
+                ColorGame(obj);
+                break;
+
+            case 10:
+                HellGame(obj);
+                break;
+        }
+    }
+
+
+    private int MyRandom(int itemsLength, ref int lastIndex)
+    {
+        if (itemsLength <= 1)
         {
             return 0;
         }
 
-        // The random index equals the last prefab index
-        int randomIndex = LastPrefabIndex;
+        int randomIndex = lastIndex;
 
-        // As long as it equals then random index gets value between 0and3 untill they dont equals
-        while (randomIndex == LastPrefabIndex)
+        while (randomIndex == lastIndex)
         {
-            randomIndex = Random.Range(0, objectToSpawn.Length);
+            randomIndex = UnityRandom.Range(0, itemsLength);
         }
 
-        // The last prefab index changing to the random one
-        LastPrefabIndex = randomIndex;
+        lastIndex = randomIndex;
 
-        // Return the random value
         return randomIndex;
     }
 
+
     private void NormalGame(GameObject obj)
     {
-        obj.GetComponent<SpriteRenderer>().flipY = true;
-
-        if (obj.gameObject.tag == Consts.ROCK)
-        {
-            obj.GetComponent<SpriteRenderer>().sprite = Rock;
-        }
-
-        if (obj.gameObject.tag == Consts.PAPER)
-        {
-            obj.GetComponent<SpriteRenderer>().sprite = Paper;
-        }
-
-        if (obj.gameObject.tag == Consts.SCISSORS)
-        {
-            obj.GetComponent<SpriteRenderer>().sprite = Scissors;
-        }
+        SpawnedObjectImageSelectorByMode(obj, Rock, Paper, Scissors);
     }
 
     private void TextGame(GameObject obj)
     {
-        obj.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+        SpawnedObjectImageSelectorByMode(obj, TextRock, TextPaper, TextScissors);
     }
+
+
+    private void NumberGame(GameObject obj)
+    {
+        SpawnedObjectImageSelectorByMode(obj, NumberRock, NumberPaper, NumberScissors);
+    }
+
 
     private void ColorGame(GameObject obj)
     {
-        obj.transform.GetChild(1).gameObject.SetActive(true);
+        SpawnedObjectImageSelectorByMode(obj, ColorRock, ColorPaper, ColorScissors);
     }
 
-    private void NumberGame(GameObject obj)//////////////////////////////////////4
+
+    private void SpawnedObjectImageSelectorByMode(GameObject obj, Sprite Rock, Sprite Paper, Sprite Scissors)
     {
-        obj.GetComponent<SpriteRenderer>().flipY = false;
-
-        if (obj.gameObject.tag == Consts.ROCK)
+        switch (obj.gameObject.tag)
         {
-            obj.GetComponent<SpriteRenderer>().sprite = NumberRock;
-        }
+            case Consts.ROCK:
+                obj.GetComponent<SpriteRenderer>().sprite = Rock;
+                break;
 
-        if (obj.gameObject.tag == Consts.PAPER)
-        {
-            obj.GetComponent<SpriteRenderer>().sprite = NumberPaper;
-        }
+            case Consts.PAPER:
+                obj.GetComponent<SpriteRenderer>().sprite = Paper;
+                break;
 
-        if (obj.gameObject.tag == Consts.SCISSORS)
-        {
-            obj.GetComponent<SpriteRenderer>().sprite = NumberScissors;
+            case Consts.SCISSORS:
+                obj.GetComponent<SpriteRenderer>().sprite = Scissors;
+                break;
         }
     }
+
+
+    private void HellGame(GameObject obj)
+    {
+        Random rnd = new Random();
+
+        int RandomMode = rnd.Next(0, modesCount + 1);
+
+        SwitchCaseBetweenModes(RandomMode, obj);
+    }
+
 
     #endregion
 }

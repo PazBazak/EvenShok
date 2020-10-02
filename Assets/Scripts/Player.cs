@@ -203,13 +203,6 @@ public class Player : MonoBehaviour
         // Getting input for horizontal 
         horizontal = Input.GetAxis(Consts.HORIZONTAL);
 
-        // If the player is using a mouse
-        if (Input.GetMouseButton(0))
-        {
-            // If the mouse click was on the right side of the screen, move right, else move left
-            horizontal = (Input.mousePosition.x > Screen.width / 2) ? 1 : -1;
-        }
-
         // Player going left/right by the inputs
         myPlayer.velocity = new Vector2(horizontal * Consts.speed, myPlayer.velocity.y);
 
