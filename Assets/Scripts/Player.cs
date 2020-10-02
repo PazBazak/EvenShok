@@ -30,6 +30,8 @@ public class Player : MonoBehaviour
 
     private PossibleType currentEnemy;
 
+    public CameraShaker cameraShakerScripts;
+
     // 1==Rock || 2==Paper || 3=Scissors
     private int randomType;
 
@@ -151,12 +153,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Manages the outcome of collision with enemy
-    /// </summary>
-    /// <param name="currentPlayer"></param>
-    /// <param name="currentEnemy"></param>
-    /// <param name="collisionObject"></param>
+
     private void WinLoseTie(PossibleType currentPlayer, PossibleType currentEnemy, Collision2D collisionObject)
     {
         // If the enemy is bigger than the player by one, call death function
@@ -168,6 +165,7 @@ public class Player : MonoBehaviour
         else if (currentPlayer == currentEnemy)
         {
             lives--;
+            cameraShakerScripts.MediumCameraShake();
             if (lives == 0)
             {
                 isDead = true;

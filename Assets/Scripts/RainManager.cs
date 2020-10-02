@@ -29,6 +29,8 @@ public class RainManager : MonoBehaviour
 
     private bool isDeadHere;
 
+    private int currentDifficulity;
+
     private float Score;
     private float Timer = 0;
     private int modesCount = 3;  //Number of modes excluding normal game and hell
@@ -66,6 +68,7 @@ public class RainManager : MonoBehaviour
 
         StartCoroutine(HandleStage(GetRandomStageModes(modesCount)));
         StartCoroutine(HandleDifficulities(GetRandomDifficulities()));
+        StartCoroutine(HandleRandomShakes(4,10));
     }
 
     void Update()
@@ -110,21 +113,25 @@ public class RainManager : MonoBehaviour
                 case 0:
                     timeBetweenSpawns = Consts.easyDifficulity;
                     TimeBetweenSpawnsTxt.text = Consts.EASY_DIFF;
+                    currentDifficulity = 0;
                     break;
 
                 case 1:
                     timeBetweenSpawns = Consts.mediumDifficulity;
                     TimeBetweenSpawnsTxt.text = Consts.MEDIUM_DIFF;
+                    currentDifficulity = 1;
                     break;
 
                 case 2:
                     timeBetweenSpawns = Consts.hardDifficulity;
-                    TimeBetweenSpawnsTxt.text = Consts.HARD_DIFF;
+                    TimeBetweenSpawnsTxt.text = Consts.HARD_DIFF;    
+                    currentDifficulity = 2;                
                     break;
 
                 case 3:
                     timeBetweenSpawns = Consts.hellDifficulity;
                     TimeBetweenSpawnsTxt.text = Consts.HELL_DIFF;
+                    currentDifficulity = 3;
                     cameraShakerScripts.HellCameraShake();
                     break;
             }
@@ -142,8 +149,31 @@ public class RainManager : MonoBehaviour
             activeMode = i;
             yield return new WaitForSeconds(timeBetweenModes);
         }
-
         StartCoroutine(HandleStage(GetRandomStageModes(modesCount)));
+    }
+
+ IEnumerator HandleRandomShakes(int minTime, int maxTime)
+    {
+        Random rnd = new Random();
+
+        while (!isDeadHere)
+        {
+            yield return new WaitForSeconds(rnd.Next(minTime, maxTime)); 
+            switch (currentDifficulity)
+            {
+                case 0:
+                    cameraShakerScripts.EasyCameraShake();
+                    break;
+
+                case 1:
+                    cameraShakerScripts.MediumCameraShake();
+                    break;
+
+                case 2:
+                    cameraShakerScripts.HardCameraShake();                    
+                    break;
+            }               
+        }
     }
 
 
