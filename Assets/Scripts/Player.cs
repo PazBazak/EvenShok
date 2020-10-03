@@ -165,7 +165,7 @@ public class Player : MonoBehaviour
         else if (currentPlayer == currentEnemy)
         {
             lives--;
-            cameraShakerScripts.MediumCameraShake();
+            cameraShakerScripts.CollisionCameraShake();
             if (lives == 0)
             {
                 isDead = true;
