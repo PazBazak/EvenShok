@@ -1,23 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scripts;
 using System.Linq;
-using UnityEngine.UIElements;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using System;
 
 /// <summary>
 /// Managing player possible events
 /// </summary>
 /// 
-
-public enum DashState
-{
-    Ready,
-    Dashing,
-    Cooldown
-}
-
 public class Player : MonoBehaviour
 {
     #region Data Members
@@ -60,24 +53,14 @@ public class Player : MonoBehaviour
     public Text timeText;
     private int lives = 3;
 
-    public UnityEngine.UI.Image[] heartPictures = new UnityEngine.UI.Image[3];
+    public Image[] heartPictures = new Image[3];
 
     private float direction;
-
-    public DashState dashState;
-    public float dashTimer;
-    public float maxDash = 20f;
-
-    public Vector2 savedVelocity;
+    public Consts.DashState dashState;
 
     #endregion
 
     #region Functions
-
-    private void Update()
-    {
-        Dash();
-    }
 
     private void Awake()
     {
@@ -98,7 +81,7 @@ public class Player : MonoBehaviour
         playerRendered = GetComponent<SpriteRenderer>();
 
         // Picking a starting charecter 
-        randomType = Random.Range(0, 3);
+        randomType = UnityEngine.Random.Range(0, 3);
 
         // CurrentPlayer equals to the PlayerType element at the random index
         currentPlayer = possibleTypeList.ElementAt(randomType);
@@ -116,6 +99,11 @@ public class Player : MonoBehaviour
         ground = LayerMask.GetMask(Consts.GROUND);
     }
 
+    private void Update()
+    {
+        Dash();
+    }
+
     /// <summary>
     /// Called a fixed amount of times on a fixed span life
     /// </summary>
@@ -125,7 +113,7 @@ public class Player : MonoBehaviour
         if (!isDead)
         {
             // Updates score
-            //score += Time.fixedDeltaTime;
+            score += Time.fixedDeltaTime;
 
             // Controls movement
             Movements();
@@ -227,8 +215,6 @@ public class Player : MonoBehaviour
         // Player going left/right by the inputs
         myPlayer.velocity = new Vector2(horizontal * Consts.speed, myPlayer.velocity.y);
 
-        Dash();
-
         ChangeDirection();
     }
 
@@ -259,43 +245,47 @@ public class Player : MonoBehaviour
     /// </summary>
     private void Dash()
     {
+        // Gets a dashstate(ready/dashing/cooldown), which starts as ready
         switch (dashState)
         {
-            case DashState.Ready:
+            // If state is ready
+            case Consts.DashState.Ready:
                 var isDashKeyDown = Input.GetKeyDown(KeyCode.F);
+
+                // If the F was pressed
                 if (isDashKeyDown)
                 {
+                    // Checks the direction the player is facing
                     direction = isFacingRight ? 1f : -1f;
-                    float g = myPlayer.gravityScale;
-                    //myPlayer.gravityScale = 0;
-                    savedVelocity = myPlayer.velocity;
-                    //myPlayer.MovePosition(new Vector2((Consts.speed * 15 * direction), myPlayer.velocity.y));
-                    myPlayer.AddForce(new Vector2((Consts.speed * 300 * direction), myPlayer.velocity.y));
-                    //myPlayer.velocity = new Vector2((Consts.speed * 15 * 1), myPlayer.velocity.y);
-                    dashState = DashState.Dashing;
-                    score += 1;
+
+                    // Moves the player
+                    myPlayer.AddForce(new Vector2((Consts.dashSpeed * direction), myPlayer.velocity.y));
+
+                    dashState = Consts.DashState.Dashing;
+
+                    // Starts a cooldown timer
+                    Task.Factory.StartNew(() => DashCooldown()).Start();
                 }
                 break;
-
-            case DashState.Dashing:
-                //dashTimer += Time.deltaTime * 3;
-                //if (dashTimer >= maxDash)
-                //{
-                //    dashTimer = maxDash;
-                //    myPlayer.velocity = savedVelocity;
-                    dashState = DashState.Ready;
-                //}
-                break;
-
-            case DashState.Cooldown:
-                //dashTimer -= Time.deltaTime;
-                //if (dashTimer <= 0)
-                //{
-                    //dashTimer = 0;
-                    dashState = DashState.Ready;
-                //}
-                break;
         }
+    }
+
+    /// <summary>
+    /// Responsible for dashing cooldown
+    /// </summary>
+    public void DashCooldown()
+    {
+        // Starts a new stopwatch
+        Stopwatch s = new Stopwatch();
+        s.Start();
+
+        // loops for the desired time and as long as the time not reached the dashing state is cooldown
+        while (s.Elapsed < TimeSpan.FromSeconds(Consts.dashCooldownTime))
+        {
+            dashState = Consts.DashState.Cooldown;
+        }
+
+        dashState = Consts.DashState.Ready;
     }
 
     private void Death()
