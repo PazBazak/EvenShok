@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     // If facing right or no
     private bool isFacingRight;
 
+    public GameObject moveJoystick; 
+
     // The ground layer ref
     private LayerMask ground;
 
@@ -124,6 +126,7 @@ public class Player : MonoBehaviour
             {
                 heartPictures[index].gameObject.SetActive(false);
             }
+            moveJoystick.gameObject.SetActive(false);
         }
 
         // Displays hearts
