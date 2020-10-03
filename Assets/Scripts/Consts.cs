@@ -62,6 +62,10 @@ namespace Assets.Scripts
         public const float xPowerHellShake = 0.41f;
         public const float yPowerHellShake = 0.23f;
 
+        public const float durationCollisionShake = 0.53f;
+        public const float xPowerCollisionShake = 0.44f;
+        public const float yPowerCollisionShake = 0.24f;
+
 
         // Dash related
         public enum DashState

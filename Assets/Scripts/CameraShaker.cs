@@ -59,4 +59,9 @@ public class CameraShaker : MonoBehaviour
     {
         StartCoroutine(Shake(Consts.durationHellShake, Consts.xPowerHellShake, Consts.yPowerHellShake));
     }
+    
+    public void CollisionCameraShake()
+    {
+        StartCoroutine(Shake(Consts.durationCollisionShake, Consts.xPowerCollisionShake, Consts.yPowerCollisionShake));
+    }
 }
