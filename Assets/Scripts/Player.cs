@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     // If facing right or no
     private bool isFacingRight;
 
+    public GameObject moveJoystick; 
+
     // The ground layer ref
     private LayerMask ground;
 
@@ -51,6 +53,9 @@ public class Player : MonoBehaviour
     public Text timeText;
     private int lives = 3;
 
+    protected Joystick Joystick;
+    protected DashButton DashJoybutton;
+
     public Image[] heartPictures = new Image[3];
 
     private float direction;
@@ -73,6 +78,9 @@ public class Player : MonoBehaviour
     // Right after the Awake
     void Start()
     {
+        Joystick = FindObjectOfType<Joystick>();
+        DashJoybutton = FindObjectOfType<DashButton>();
+
         // At the start the player is alive
         isDead = false;
 
@@ -124,6 +132,7 @@ public class Player : MonoBehaviour
             {
                 heartPictures[index].gameObject.SetActive(false);
             }
+            moveJoystick.gameObject.SetActive(false);
         }
 
         // Displays hearts
@@ -208,7 +217,7 @@ public class Player : MonoBehaviour
     {
 
         // Getting input for horizontal 
-        horizontal = Input.GetAxis(Consts.HORIZONTAL);
+        horizontal = Joystick.Horizontal;
 
         // Player going left/right by the inputs
         myPlayer.velocity = new Vector2(horizontal * Consts.speed, myPlayer.velocity.y);
@@ -248,7 +257,7 @@ public class Player : MonoBehaviour
         {
             // If state is ready
             case Consts.DashState.Ready:
-                var isDashKeyDown = Input.GetKeyDown(KeyCode.F);
+                var isDashKeyDown = Input.GetKeyDown(KeyCode.F) || DashJoybutton.Pressed;
 
                 // If the F was pressed
                 if (isDashKeyDown)
