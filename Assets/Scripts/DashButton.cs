@@ -1,9 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine.EventSystems;
 using UnityEngine;
+using System;
 
-public class DashButton : MonoBehaviour
+public class DashButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
+    [HideInInspector]
+    public bool Pressed;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +18,15 @@ public class DashButton : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        Pressed = true;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        Pressed = false;
     }
 }
