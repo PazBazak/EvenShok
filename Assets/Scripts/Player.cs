@@ -3,9 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scripts;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using System;
+using System.Collections;
 
 /// <summary>
 /// Managing player possible events
@@ -264,7 +262,7 @@ public class Player : MonoBehaviour
                     dashState = Consts.DashState.Dashing;
 
                     // Starts a cooldown timer
-                    Task.Factory.StartNew(() => DashCooldown()).Start();
+                    StartCoroutine(DashCooldown());
                 }
                 break;
         }
@@ -273,18 +271,9 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Responsible for dashing cooldown
     /// </summary>
-    public void DashCooldown()
+    IEnumerator DashCooldown()
     {
-        // Starts a new stopwatch
-        Stopwatch s = new Stopwatch();
-        s.Start();
-
-        // loops for the desired time and as long as the time not reached the dashing state is cooldown
-        while (s.Elapsed < TimeSpan.FromSeconds(Consts.dashCooldownTime))
-        {
-            dashState = Consts.DashState.Cooldown;
-        }
-
+        yield return new WaitForSeconds(Consts.dashCooldownTime);
         dashState = Consts.DashState.Ready;
     }
 
