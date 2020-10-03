@@ -4,10 +4,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scripts;
 using System.Linq;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// Managing player possible events
 /// </summary>
+/// 
+
+public enum DashState
+{
+    Ready,
+    Dashing,
+    Cooldown
+}
+
 public class Player : MonoBehaviour
 {
     #region Data Members
@@ -50,14 +60,25 @@ public class Player : MonoBehaviour
     public Text timeText;
     private int lives = 3;
 
-    public Image[] heartPictures = new Image[3];
+    public UnityEngine.UI.Image[] heartPictures = new UnityEngine.UI.Image[3];
 
     private float direction;
+
+    public DashState dashState;
+    public float dashTimer;
+    public float maxDash = 20f;
+
+    public Vector2 savedVelocity;
 
     #endregion
 
     #region Functions
-    
+
+    private void Update()
+    {
+        Dash();
+    }
+
     private void Awake()
     {
         // Just for the first time the game runs it makes an highscore file 
@@ -71,7 +92,6 @@ public class Player : MonoBehaviour
     // Right after the Awake
     void Start()
     {
-
         // At the start the player is alive
         isDead = false;
 
@@ -105,7 +125,7 @@ public class Player : MonoBehaviour
         if (!isDead)
         {
             // Updates score
-            score += Time.fixedDeltaTime;
+            //score += Time.fixedDeltaTime;
 
             // Controls movement
             Movements();
@@ -200,6 +220,7 @@ public class Player : MonoBehaviour
 
     private void Movements()
     {
+
         // Getting input for horizontal 
         horizontal = Input.GetAxis(Consts.HORIZONTAL);
 
@@ -238,12 +259,42 @@ public class Player : MonoBehaviour
     /// </summary>
     private void Dash()
     {
-        // If isFacingRight, direction=1f, else direction=-1f
-        direction = isFacingRight ? 1f : -1f;
-
-        if (Input.GetKeyDown(KeyCode.F))
+        switch (dashState)
         {
-            myPlayer.velocity = new Vector2(Consts.speed * 15 * direction, myPlayer.velocity.y);
+            case DashState.Ready:
+                var isDashKeyDown = Input.GetKeyDown(KeyCode.F);
+                if (isDashKeyDown)
+                {
+                    direction = isFacingRight ? 1f : -1f;
+                    float g = myPlayer.gravityScale;
+                    //myPlayer.gravityScale = 0;
+                    savedVelocity = myPlayer.velocity;
+                    //myPlayer.MovePosition(new Vector2((Consts.speed * 15 * direction), myPlayer.velocity.y));
+                    myPlayer.AddForce(new Vector2((Consts.speed * 300 * direction), myPlayer.velocity.y));
+                    //myPlayer.velocity = new Vector2((Consts.speed * 15 * 1), myPlayer.velocity.y);
+                    dashState = DashState.Dashing;
+                    score += 1;
+                }
+                break;
+
+            case DashState.Dashing:
+                //dashTimer += Time.deltaTime * 3;
+                //if (dashTimer >= maxDash)
+                //{
+                //    dashTimer = maxDash;
+                //    myPlayer.velocity = savedVelocity;
+                    dashState = DashState.Ready;
+                //}
+                break;
+
+            case DashState.Cooldown:
+                //dashTimer -= Time.deltaTime;
+                //if (dashTimer <= 0)
+                //{
+                    //dashTimer = 0;
+                    dashState = DashState.Ready;
+                //}
+                break;
         }
     }
 
