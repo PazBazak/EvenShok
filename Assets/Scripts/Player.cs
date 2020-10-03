@@ -1,13 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scripts;
 using System.Linq;
+using System.Collections;
 
 /// <summary>
 /// Managing player possible events
 /// </summary>
+/// 
 public class Player : MonoBehaviour
 {
     #region Data Members
@@ -53,11 +54,12 @@ public class Player : MonoBehaviour
     public Image[] heartPictures = new Image[3];
 
     private float direction;
+    public Consts.DashState dashState;
 
     #endregion
 
     #region Functions
-    
+
     private void Awake()
     {
         // Just for the first time the game runs it makes an highscore file 
@@ -71,14 +73,13 @@ public class Player : MonoBehaviour
     // Right after the Awake
     void Start()
     {
-
         // At the start the player is alive
         isDead = false;
 
         playerRendered = GetComponent<SpriteRenderer>();
 
         // Picking a starting charecter 
-        randomType = Random.Range(0, 3);
+        randomType = UnityEngine.Random.Range(0, 3);
 
         // CurrentPlayer equals to the PlayerType element at the random index
         currentPlayer = possibleTypeList.ElementAt(randomType);
@@ -94,6 +95,11 @@ public class Player : MonoBehaviour
 
         // Get refrence to Ground Layer (like tagging)
         ground = LayerMask.GetMask(Consts.GROUND);
+    }
+
+    private void Update()
+    {
+        Dash();
     }
 
     /// <summary>
@@ -200,13 +206,12 @@ public class Player : MonoBehaviour
 
     private void Movements()
     {
+
         // Getting input for horizontal 
         horizontal = Input.GetAxis(Consts.HORIZONTAL);
 
         // Player going left/right by the inputs
         myPlayer.velocity = new Vector2(horizontal * Consts.speed, myPlayer.velocity.y);
-
-        Dash();
 
         ChangeDirection();
     }
@@ -238,13 +243,38 @@ public class Player : MonoBehaviour
     /// </summary>
     private void Dash()
     {
-        // If isFacingRight, direction=1f, else direction=-1f
-        direction = isFacingRight ? 1f : -1f;
-
-        if (Input.GetKeyDown(KeyCode.F))
+        // Gets a dashstate(ready/dashing/cooldown), which starts as ready
+        switch (dashState)
         {
-            myPlayer.velocity = new Vector2(Consts.speed * 15 * direction, myPlayer.velocity.y);
+            // If state is ready
+            case Consts.DashState.Ready:
+                var isDashKeyDown = Input.GetKeyDown(KeyCode.F);
+
+                // If the F was pressed
+                if (isDashKeyDown)
+                {
+                    // Checks the direction the player is facing
+                    direction = isFacingRight ? 1f : -1f;
+
+                    // Moves the player
+                    myPlayer.AddForce(new Vector2((Consts.dashSpeed * direction), myPlayer.velocity.y));
+
+                    dashState = Consts.DashState.Dashing;
+
+                    // Starts a cooldown timer
+                    StartCoroutine(DashCooldown());
+                }
+                break;
         }
+    }
+
+    /// <summary>
+    /// Responsible for dashing cooldown
+    /// </summary>
+    IEnumerator DashCooldown()
+    {
+        yield return new WaitForSeconds(Consts.dashCooldownTime);
+        dashState = Consts.DashState.Ready;
     }
 
     private void Death()

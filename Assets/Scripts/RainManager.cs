@@ -16,7 +16,7 @@ public class RainManager : MonoBehaviour
     #region Data Members
 
     // Array of empty objects to indicate where the rain can possible come from
-    private GameObject[] locationsToSpawn;    
+    private GameObject[] locationsToSpawn;
 
     public GameObject[] objectToSpawn;
 
@@ -69,7 +69,7 @@ public class RainManager : MonoBehaviour
     }
 
     void Update()
-    {       
+    {
         // The Score here is the same score as in player's script
         Score = GameObject.Find(Consts.PLAYER).GetComponent<Player>().score;
 
@@ -78,7 +78,7 @@ public class RainManager : MonoBehaviour
 
         // Counting seconds by adding the time it takes to finish frame each frame so it adds up to 1 second each real time second
         Timer += Time.deltaTime;
-     
+
         // If the timer is bigger than the time between spawns
         if (Timer > timeBetweenSpawns && !isDeadHere)
         {
@@ -119,7 +119,7 @@ public class RainManager : MonoBehaviour
 
                 case 2:
                     timeBetweenSpawns = Consts.hardDifficulity;
-                    TimeBetweenSpawnsTxt.text = Consts.HARD_DIFF;                    
+                    TimeBetweenSpawnsTxt.text = Consts.HARD_DIFF;
                     break;
 
                 case 3:
@@ -127,8 +127,8 @@ public class RainManager : MonoBehaviour
                     TimeBetweenSpawnsTxt.text = Consts.HELL_DIFF;
                     cameraShakerScripts.HellCameraShake();
                     break;
-            }     
-            
+            }
+
             yield return new WaitForSeconds(timeBetweenModes);
         }
         StartCoroutine(HandleDifficulities(GetRandomDifficulities()));
@@ -140,7 +140,7 @@ public class RainManager : MonoBehaviour
         foreach (int i in CurrentStage)
         {
             activeMode = i;
-            yield return new WaitForSeconds(timeBetweenModes);           
+            yield return new WaitForSeconds(timeBetweenModes);
         }
 
         StartCoroutine(HandleStage(GetRandomStageModes(modesCount)));
@@ -150,7 +150,7 @@ public class RainManager : MonoBehaviour
     private int[] GetRandomStageModes(int modesCount)
     {
         Random rnd = new Random();
-      
+
         int[] zeroArr = { 0 };
         int[] hellArr = { 10 };
         int[] stageArr = Enumerable.Range(1, modesCount).OrderBy(c => rnd.Next()).ToArray();
@@ -165,7 +165,7 @@ public class RainManager : MonoBehaviour
         Random rnd = new Random();
 
         int[] diffArray = new int[modesCount + 2];
-        for (int i=0; i < diffArray.Length; i++) // TODO: try to change this for to a more sleek one
+        for (int i = 0; i < diffArray.Length; i++) // TODO: try to change this for to a more sleek one
         {
             if (i == modesCount + 1)
             {
@@ -193,7 +193,7 @@ public class RainManager : MonoBehaviour
 
 
     private void SwitchCaseBetweenModes(int Case, GameObject obj)
-    {     
+    {
         switch (Case)
         {
             case 0:

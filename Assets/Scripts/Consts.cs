@@ -62,6 +62,19 @@ namespace Assets.Scripts
         public const float xPowerHellShake = 0.41f;
         public const float yPowerHellShake = 0.23f;
 
+
+        // Dash related
+        public enum DashState
+        {
+            Ready,
+            Dashing,
+            Cooldown
+        }
+
+        public const float maxDash = 20f;
+        public const float dashSpeed = speed * 300;
+        public const float dashCooldownTime = 1;
+
         #endregion
     }
 }
