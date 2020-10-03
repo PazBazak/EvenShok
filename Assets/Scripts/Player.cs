@@ -257,7 +257,7 @@ public class Player : MonoBehaviour
         {
             // If state is ready
             case Consts.DashState.Ready:
-                var isDashKeyDown = Input.GetKeyDown(KeyCode.F);
+                var isDashKeyDown = Input.GetKeyDown(KeyCode.F) || DashJoybutton.Pressed;
 
                 // If the F was pressed
                 if (isDashKeyDown)
