@@ -22,6 +22,8 @@ sysinfo.txt
 *.vs/
 *.vs
 [Ee]xportedObj/
+
+ortedObj/
 *.booproj
 *.csproj
 *.sln
