@@ -146,6 +146,7 @@ public class Player : MonoBehaviour
             {
                 startCurrentModeRef = currentModeRef;
                 playerRendered.sprite = GetModeSprites(currentModeRef)[randomType];
+                myPlayer.gameObject.transform.localScale = new Vector3(1, 1, 1);
             }
         }
 
