@@ -45,6 +45,11 @@ public class Player : MonoBehaviour
     // Holding the rock/ paper/ scissors pictures
     public Sprite[] pictureTypeList = new Sprite[3];
 
+    // Holding the rock/ paper/ scissors pictures for different game modes
+    public Sprite[] pictureTypeListText = new Sprite[3];
+    public Sprite[] pictureTypeListNumber = new Sprite[3];
+    public Sprite[] pictureTypeListColor = new Sprite[3];
+
     // Holding refrence to the dash effect
     public GameObject dashEffect;
     
@@ -55,7 +60,8 @@ public class Player : MonoBehaviour
     public Text timeText;
     private int lives = 3;
 
-    private int currentModeRef;
+    private int currentModeRef; // 0 = NormalGame, 10 = HellGame, 1 = TextGame, 2 = NumberGame, 3 = ColorGame, 4 = HandSignGame ** 
+    private int startCurrentModeRef;
 
     protected Joystick Joystick;
     protected DashButton DashJoybutton;
@@ -110,6 +116,8 @@ public class Player : MonoBehaviour
 
         // Get refrence to Ground Layer (like tagging)
         ground = LayerMask.GetMask(Consts.GROUND);
+
+        startCurrentModeRef = GameObject.Find("MapManager").GetComponent<RainManager>().activeMode;
     }
 
     private void Update()
@@ -132,7 +140,13 @@ public class Player : MonoBehaviour
             // Controls movement
             Movements();
 
-            currentModeRef = GameObject.Find("RainManager").GetComponent<RainManager>().activeMode;
+            currentModeRef = GameObject.Find("MapManager").GetComponent<RainManager>().activeMode;
+
+            if (currentModeRef != startCurrentModeRef)
+            {
+                startCurrentModeRef = currentModeRef;
+                playerRendered.sprite = GetModeSprites(currentModeRef)[randomType];
+            }
         }
 
         // Else dont display hearts
@@ -156,6 +170,28 @@ public class Player : MonoBehaviour
 
         scoreTxt.text = Consts.TIME_SURVIVED + (int)score;
         timeText.text = Consts.TIME + (int)score;
+    }
+
+    private Sprite[] GetModeSprites(int modeNum)
+    {
+        switch (modeNum)
+        {
+            case 0:
+                return pictureTypeList;
+
+            case 1:
+                return pictureTypeListText;
+
+            case 2:
+                return pictureTypeListNumber;
+
+            case 3:
+                return pictureTypeListColor;
+
+            default:
+                return pictureTypeList;
+        }
+
     }
 
     private void OnCollisionEnter2D(Collision2D collisionObject)
