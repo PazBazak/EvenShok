@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
 
     private PossibleType currentEnemy;
 
-    public CameraShaker cameraShakerScripts;
+    private CameraShaker cameraShakerScripts;
 
     // 1==Rock || 2==Paper || 3=Scissors
     private int randomType;
@@ -82,6 +82,8 @@ public class Player : MonoBehaviour
     {
         Joystick = FindObjectOfType<Joystick>();
         DashJoybutton = FindObjectOfType<DashButton>();
+
+        cameraShakerScripts = Camera.main.GetComponent<CameraShaker>();
 
         // At the start the player is alive
         isDead = false;
