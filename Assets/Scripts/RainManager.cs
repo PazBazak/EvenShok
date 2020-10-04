@@ -34,7 +34,7 @@ public class RainManager : MonoBehaviour
     private float Score;
     private float Timer = 0;
     private int modesCount = 3;  //Number of modes excluding normal game and hell
-    private int activeMode = 0;      // 0 = NormalGame, 10 = HellGame, 1 = TextGame, 2 = NumberGame, 3 = ColorGame, 4 = HandSignGame ** 
+    public int activeMode = 0;      // 0 = NormalGame, 10 = HellGame, 1 = TextGame, 2 = NumberGame, 3 = ColorGame, 4 = HandSignGame ** 
 
     private int lastPrefabIndex = 0;
     private int lastSpawnedIndex = 0;

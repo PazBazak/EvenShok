@@ -55,6 +55,8 @@ public class Player : MonoBehaviour
     public Text timeText;
     private int lives = 3;
 
+    private int currentModeRef;
+
     protected Joystick Joystick;
     protected DashButton DashJoybutton;
 
@@ -62,6 +64,7 @@ public class Player : MonoBehaviour
 
     private float direction;
     public Consts.DashState dashState;
+
 
     #endregion
 
@@ -119,6 +122,7 @@ public class Player : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
+
         // As long as the player is not dead, update score and enable movement
         if (!isDead)
         {
@@ -127,6 +131,8 @@ public class Player : MonoBehaviour
 
             // Controls movement
             Movements();
+
+            currentModeRef = GameObject.Find("RainManager").GetComponent<RainManager>().activeMode;
         }
 
         // Else dont display hearts
