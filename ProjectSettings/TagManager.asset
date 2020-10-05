@@ -13,6 +13,7 @@ TagManager:
   - Sound
   - RainManager
   - Heart
+  - AstroidLocation
   layers:
   - Default
   - TransparentFX
