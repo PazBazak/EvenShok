@@ -430,7 +430,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveJoystick: {fileID: 990095210}
-  cameraShakerScripts: {fileID: 0}
   pictureTypeList:
   - {fileID: 21300000, guid: 7764ef621c3d35a439052a996aec3004, type: 3}
   - {fileID: 21300000, guid: 57d2ca58f27943248954d777f3b01d72, type: 3}
@@ -1526,6 +1525,8 @@ MonoBehaviour:
   - {fileID: 1636539496676574, guid: cbf34bcebed557046bf54b02b6d7b6c6, type: 3}
   - {fileID: 1509856717331394, guid: 2d3034f74edad7b47991f781132645ed, type: 3}
   - {fileID: 1734874117447658, guid: f868dca5c5a8a3b42836b079c4c8a8e4, type: 3}
+  astroidObject: {fileID: 8795009651696623927, guid: 70985fedb9b38f842bdbf46d6b1de4ca,
+    type: 3}
   cameraShakerScripts: {fileID: 964315120}
   TimeBetweenSpawnsTxt: {fileID: 961284810}
   activeMode: 0
@@ -1539,9 +1540,9 @@ MonoBehaviour:
   TextRock: {fileID: 21300000, guid: e0394059f185ff242973e317b61dc20a, type: 3}
   TextPaper: {fileID: 21300000, guid: 077cb076ad4a93941bd84de4172f9324, type: 3}
   TextScissors: {fileID: 21300000, guid: 697de7b5dc29f3a419d2a586aaf200d8, type: 3}
-  ColorRock: {fileID: 21300000, guid: 5bd0747d3b9bbf64d947fc753f1da9ac, type: 3}
-  ColorPaper: {fileID: 21300000, guid: 844a620026f28ef46b4f249e155201f9, type: 3}
-  ColorScissors: {fileID: 21300000, guid: 77c588440723186499612a2aaa552700, type: 3}
+  ColorRock: {fileID: 21300000, guid: 9f71320709b5ad34bb03fb9610f06027, type: 3}
+  ColorPaper: {fileID: 21300000, guid: 9f71320709b5ad34bb03fb9610f06027, type: 3}
+  ColorScissors: {fileID: 21300000, guid: 9f71320709b5ad34bb03fb9610f06027, type: 3}
 --- !u!1 &771590919
 GameObject:
   m_ObjectHideFlags: 0

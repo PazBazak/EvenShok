@@ -44,6 +44,7 @@ public class RainManager : MonoBehaviour
     private int lastDiffIndex = -1;
 
     public Transform CanvasRef;
+
     public Sprite NumberRock;// 1
     public Sprite NumberPaper;// 4
     public Sprite NumberScissors;// 7
@@ -86,7 +87,7 @@ public class RainManager : MonoBehaviour
 
         StartCoroutine(HandleStage(GetRandomStageModes(modesCount)));
         StartCoroutine(HandleDifficulities(GetRandomDifficulities()));
-        StartCoroutine(HandleRandomShakes(4, 10));
+        StartCoroutine(HandleAstroids());
     }
 
     public void HandleObjectsArray()
@@ -214,6 +215,8 @@ public class RainManager : MonoBehaviour
 
             GameObject spawnedAstroid;
             spawnedAstroid = Instantiate(astroidObject, locationsToSpawnAstroids[MyRandom(locationsToSpawnAstroids.Length, ref lastSpawnedIndex)].transform.position, Quaternion.identity) as GameObject;
+            spawnedAstroid.AddComponent<DestroyOnGround>();
+            spawnedAstroid.transform.SetParent(CanvasRef);
         }
     }
 
