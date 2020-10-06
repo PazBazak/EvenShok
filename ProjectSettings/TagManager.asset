@@ -11,6 +11,7 @@ TagManager:
   - Scissors
   - Rock
   - Sound
+  - RainManager
   layers:
   - Default
   - TransparentFX

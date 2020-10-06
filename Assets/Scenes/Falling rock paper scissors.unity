@@ -434,6 +434,18 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7764ef621c3d35a439052a996aec3004, type: 3}
   - {fileID: 21300000, guid: 57d2ca58f27943248954d777f3b01d72, type: 3}
   - {fileID: 21300000, guid: 3879154ef78f41444818e9316615ccfd, type: 3}
+  pictureTypeListText:
+  - {fileID: 21300000, guid: e0394059f185ff242973e317b61dc20a, type: 3}
+  - {fileID: 21300000, guid: 077cb076ad4a93941bd84de4172f9324, type: 3}
+  - {fileID: 21300000, guid: 697de7b5dc29f3a419d2a586aaf200d8, type: 3}
+  pictureTypeListNumber:
+  - {fileID: 21300000, guid: 2dfd52f7eae83fe42ad7480886d568a7, type: 3}
+  - {fileID: 21300000, guid: a6e55b4edd6f35148ade9f80762606d2, type: 3}
+  - {fileID: 21300000, guid: a8e5e367e0d31ab4491e9eb2d229157d, type: 3}
+  pictureTypeListColor:
+  - {fileID: 21300000, guid: 8cf81b937a73e4e4cbbeab5a93e2734b, type: 3}
+  - {fileID: 21300000, guid: 279aaf02ecb42804ea0d9b66baf5fcc7, type: 3}
+  - {fileID: 21300000, guid: e2cdddd808cfddc479664d050f7fa058, type: 3}
   dashEffect: {fileID: 485970023}
   isDead: 0
   deathMenu: {fileID: 592084700}
@@ -444,6 +456,7 @@ MonoBehaviour:
   - {fileID: 589968161}
   - {fileID: 1519943690}
   - {fileID: 2021539470}
+  dashState: 0
 --- !u!61 &251101493
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1516,6 +1529,7 @@ MonoBehaviour:
   - {fileID: 1734874117447658, guid: f868dca5c5a8a3b42836b079c4c8a8e4, type: 3}
   cameraShakerScripts: {fileID: 964315120}
   TimeBetweenSpawnsTxt: {fileID: 961284810}
+  activeMode: 0
   CanvasRef: {fileID: 833950092}
   NumberRock: {fileID: 21300000, guid: 2dfd52f7eae83fe42ad7480886d568a7, type: 3}
   NumberPaper: {fileID: 21300000, guid: a6e55b4edd6f35148ade9f80762606d2, type: 3}
@@ -1913,6 +1927,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8a77b7e3ce2b224e882bc63a25c81ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pressed: 0
 --- !u!114 &855290847
 MonoBehaviour:
   m_ObjectHideFlags: 0
