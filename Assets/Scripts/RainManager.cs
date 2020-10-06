@@ -19,7 +19,12 @@ public class RainManager : MonoBehaviour
     // Array of empty objects to indicate where the rain can possible come from
     private GameObject[] locationsToSpawn;
 
+    // Array of empty objects to indicate where the astroids can possible come from
+    private GameObject[] locationsToSpawnAstroids;
+
     public GameObject[] objectToSpawn;
+
+    public GameObject astroidObject;
 
     public CameraShaker cameraShakerScripts;
 
@@ -27,6 +32,9 @@ public class RainManager : MonoBehaviour
     private float timeBetweenSpawns = 0.16f;
     public Text TimeBetweenSpawnsTxt;
     private float timeBetweenModes = 10f;
+
+    private int minAstroidTime = 5;
+    private int maxAstroidTime = 10;
 
     private float Score;
     private float Timer = 0;
@@ -52,6 +60,8 @@ public class RainManager : MonoBehaviour
     public Sprite ColorPaper;// pink
     public Sprite ColorScissors;// orange
 
+    private 
+
     #endregion
 
     #region Functions
@@ -71,6 +81,8 @@ public class RainManager : MonoBehaviour
     {
         // Get a refrebce of all the empty game objects tagged with SpawnLocation
         locationsToSpawn = GameObject.FindGameObjectsWithTag(Consts.SPAWN_LOCATION);
+
+        locationsToSpawnAstroids = GameObject.FindGameObjectsWithTag(Consts.SPAWN_LOCATION_ASTROIDS);
 
         StartCoroutine(HandleStage(GetRandomStageModes(modesCount)));
         StartCoroutine(HandleDifficulities(GetRandomDifficulities()));
@@ -191,6 +203,18 @@ public class RainManager : MonoBehaviour
             yield return new WaitForSeconds(timeBetweenModes);
         }
         StartCoroutine(HandleDifficulities(GetRandomDifficulities()));
+    }
+
+    IEnumerator HandleAstroids()
+    {
+        while (!isDeadHere)
+        {
+            Random rnd = new Random();
+            yield return new WaitForSeconds(rnd.Next(minAstroidTime, maxAstroidTime));
+
+            GameObject spawnedAstroid;
+            spawnedAstroid = Instantiate(astroidObject, locationsToSpawnAstroids[MyRandom(locationsToSpawnAstroids.Length, ref lastSpawnedIndex)].transform.position, Quaternion.identity) as GameObject;
+        }
     }
 
 

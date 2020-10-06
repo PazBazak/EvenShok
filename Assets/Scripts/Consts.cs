@@ -14,6 +14,7 @@ namespace Assets.Scripts
         #region Consts
         
         public const string SPAWN_LOCATION = "SpawnLocation";
+        public const string SPAWN_LOCATION_ASTROIDS = "AstroidLocation";
         public const string PLAYER = "Player";
         public const string ROCK = "Rock";
         public const string PAPER = "Paper";
