@@ -430,6 +430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveJoystick: {fileID: 990095210}
+  cameraShakerScripts: {fileID: 964315120}
   pictureTypeList:
   - {fileID: 21300000, guid: 7764ef621c3d35a439052a996aec3004, type: 3}
   - {fileID: 21300000, guid: 57d2ca58f27943248954d777f3b01d72, type: 3}
@@ -447,9 +448,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 279aaf02ecb42804ea0d9b66baf5fcc7, type: 3}
   - {fileID: 21300000, guid: e2cdddd808cfddc479664d050f7fa058, type: 3}
   dashEffect: {fileID: 485970023}
-  isDead: 0
   deathMenu: {fileID: 592084700}
-  score: 0
   scoreTxt: {fileID: 1625785966}
   timeText: {fileID: 728836766}
   heartPictures:
@@ -1123,7 +1122,7 @@ GameObject:
   - component: {fileID: 589968161}
   m_Layer: 5
   m_Name: Heart1
-  m_TagString: Untagged
+  m_TagString: Heart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2567,7 +2566,7 @@ GameObject:
   - component: {fileID: 1519943690}
   m_Layer: 5
   m_Name: Heart2
-  m_TagString: Untagged
+  m_TagString: Heart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3734,7 +3733,7 @@ GameObject:
   - component: {fileID: 2021539470}
   m_Layer: 5
   m_Name: Heart3
-  m_TagString: Untagged
+  m_TagString: Heart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

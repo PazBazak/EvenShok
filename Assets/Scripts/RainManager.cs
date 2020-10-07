@@ -7,6 +7,7 @@ using System.Linq;
 using System;
 using UnityRandom = UnityEngine.Random;
 using Random = System.Random;
+using System.Threading;
 
 /// <summary>
 /// Managing rain of enemies
@@ -27,15 +28,8 @@ public class RainManager : MonoBehaviour
     public Text TimeBetweenSpawnsTxt;
     private float timeBetweenModes = 10f;
 
-    private bool isDeadHere;
-
-    private int currentDifficulity;
-
-    private float Score;
     private float Timer = 0;
     private int modesCount = 3;  //Number of modes excluding normal game and hell
-    public int activeMode = 0;      // 0 = NormalGame, 10 = HellGame, 1 = TextGame, 2 = NumberGame, 3 = ColorGame, 4 = HandSignGame ** 
-
     private int lastPrefabIndex = 0;
     private int lastSpawnedIndex = 0;
     private int lastDiffIndex = -1;
@@ -63,46 +57,103 @@ public class RainManager : MonoBehaviour
 
     void Start()
     {
+        HandleRain();
+    }
+
+    void Update()
+    {
+        HandleObjectsArray();
+    }
+
+
+    public void HandleRain()
+    {
         // Get a refrebce of all the empty game objects tagged with SpawnLocation
         locationsToSpawn = GameObject.FindGameObjectsWithTag(Consts.SPAWN_LOCATION);
 
         StartCoroutine(HandleStage(GetRandomStageModes(modesCount)));
         StartCoroutine(HandleDifficulities(GetRandomDifficulities()));
-        StartCoroutine(HandleRandomShakes(4,10));
+        StartCoroutine(HandleRandomShakes(4, 10));
     }
 
-    void Update()
+    public void HandleObjectsArray()
     {
-        // The Score here is the same score as in player's script
-        Score = GameObject.Find(Consts.PLAYER).GetComponent<Player>().score;
+        if (!GameManager.Instance().IsDead)
+        {
+            Score += Time.deltaTime;
+        }
 
-        // isDeadHere in this script is the same as Player's Script isDead
-        isDeadHere = GameObject.Find(Consts.PLAYER).GetComponent<Player>().isDead;
+        // The Score here is the same score as in player's script
+        GameManager.Instance().Score = Score;
 
         // Counting seconds by adding the time it takes to finish frame each frame so it adds up to 1 second each real time second
         Timer += Time.deltaTime;
 
         // If the timer is bigger than the time between spawns
-        if (Timer > timeBetweenSpawns && !isDeadHere)
+        if (Timer > timeBetweenSpawns && !GameManager.Instance().IsDead)
         {
-            GameObject spawnedObject;
-
-            // The spawned object is a copy of random object from ObjectsToSpawn var with the starting location of random empty game object from LocationsToSpawn with rotation to ground
-            spawnedObject = Instantiate(objectToSpawn[MyRandom(objectToSpawn.Length, ref lastPrefabIndex)], locationsToSpawn[MyRandom(locationsToSpawn.Length, ref lastSpawnedIndex)].transform.position, Quaternion.identity) as GameObject;
-
             // Resets the timer
             Timer = 0;
 
-            // Making the clone child of object to be more orginized
-            spawnedObject.transform.SetParent(CanvasRef);
+            GameObject spawnedObject = SpawnedObject();
 
-            spawnedObject.AddComponent<DestroyOnGround>();
-
-            HandleMode(activeMode, spawnedObject);
-
+            HandleMode(GameManager.Instance().Mode, spawnedObject);
         }
     }
 
+    private GameObject SpawnedObject()
+    {
+        GameObject spawnedObject;
+
+        // The spawned object is a copy of random object from ObjectsToSpawn var with the starting location of random empty game object from LocationsToSpawn with rotation to ground
+        spawnedObject = Instantiate(objectToSpawn[MyRandom(objectToSpawn.Length, ref lastPrefabIndex)], locationsToSpawn[MyRandom(locationsToSpawn.Length, ref lastSpawnedIndex)].transform.position, Quaternion.identity) as GameObject;
+
+        // Making the clone child of object to be more orginized
+        spawnedObject.transform.SetParent(CanvasRef);
+
+        spawnedObject.AddComponent<DestroyOnGround>();
+        return spawnedObject;
+    }
+
+    //IEnumerator HandleObjectsArray()
+    //{
+    //    while (true)
+    //    {
+    //        Timer = 0;
+
+    //        while (Timer < timeBetweenModes)
+    //        {
+    //            // The Score here is the same score as in player's script
+    //            GameManager.Instance().Score += Timer;
+
+    //            // Counting seconds by adding the time it takes to finish frame each frame so it adds up to 1 second each real time second
+    //            Timer += Time.deltaTime;
+
+    //            yield return new WaitForSeconds(timeBetweenSpawns);
+
+    //            // If the timer is bigger than the time between spawns
+    //            if (Timer > timeBetweenSpawns && !GameManager.Instance().IsDead)
+    //            {
+    //                GameObject spawnedObject;
+
+    //                // The spawned object is a copy of random object from ObjectsToSpawn var with the starting location of random empty game object from LocationsToSpawn with rotation to ground
+    //                spawnedObject = Instantiate(objectToSpawn[MyRandom(objectToSpawn.Length, ref lastPrefabIndex)], locationsToSpawn[MyRandom(locationsToSpawn.Length, ref lastSpawnedIndex)].transform.position, Quaternion.identity) as GameObject;
+
+    //                // Resets the timer
+    //                //Timer = 0;
+
+    //                // Making the clone child of object to be more orginized
+    //                spawnedObject.transform.SetParent(CanvasRef);
+
+    //                spawnedObject.AddComponent<DestroyOnGround>();
+
+    //                HandleMode(GameManager.Instance().Mode, spawnedObject);
+    //            }
+    //        }
+
+    //        yield return new WaitForSeconds(3);
+    //    }
+    //}
 
     IEnumerator HandleDifficulities(int[] stageDifficulities)
     {
@@ -113,25 +164,25 @@ public class RainManager : MonoBehaviour
                 case 0:
                     timeBetweenSpawns = Consts.easyDifficulity;
                     TimeBetweenSpawnsTxt.text = Consts.EASY_DIFF;
-                    currentDifficulity = 0;
+                    GameManager.Instance().Difficulty = 0;
                     break;
 
                 case 1:
                     timeBetweenSpawns = Consts.mediumDifficulity;
                     TimeBetweenSpawnsTxt.text = Consts.MEDIUM_DIFF;
-                    currentDifficulity = 1;
+                    GameManager.Instance().Difficulty = 1;
                     break;
 
                 case 2:
                     timeBetweenSpawns = Consts.hardDifficulity;
-                    TimeBetweenSpawnsTxt.text = Consts.HARD_DIFF;    
-                    currentDifficulity = 2;                
+                    TimeBetweenSpawnsTxt.text = Consts.HARD_DIFF;
+                    GameManager.Instance().Difficulty = 2;
                     break;
 
                 case 3:
                     timeBetweenSpawns = Consts.hellDifficulity;
                     TimeBetweenSpawnsTxt.text = Consts.HELL_DIFF;
-                    currentDifficulity = 3;
+                    GameManager.Instance().Difficulty = 3;
                     cameraShakerScripts.HellCameraShake();
                     break;
             }
@@ -146,20 +197,20 @@ public class RainManager : MonoBehaviour
     {
         foreach (int i in CurrentStage)
         {
-            activeMode = i;
+            GameManager.Instance().Mode = i;
             yield return new WaitForSeconds(timeBetweenModes);
         }
         StartCoroutine(HandleStage(GetRandomStageModes(modesCount)));
     }
 
- IEnumerator HandleRandomShakes(int minTime, int maxTime)
+    IEnumerator HandleRandomShakes(int minTime, int maxTime)
     {
         Random rnd = new Random();
 
-        while (!isDeadHere)
+        while (!GameManager.Instance().IsDead)
         {
-            yield return new WaitForSeconds(rnd.Next(minTime, maxTime)); 
-            switch (currentDifficulity)
+            yield return new WaitForSeconds(rnd.Next(minTime, maxTime));
+            switch (GameManager.Instance().Difficulty)
             {
                 case 0:
                     cameraShakerScripts.EasyCameraShake();
@@ -170,9 +221,9 @@ public class RainManager : MonoBehaviour
                     break;
 
                 case 2:
-                    cameraShakerScripts.HardCameraShake();                    
+                    cameraShakerScripts.HardCameraShake();
                     break;
-            }               
+            }
         }
     }
 

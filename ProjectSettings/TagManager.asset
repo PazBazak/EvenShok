@@ -12,6 +12,7 @@ TagManager:
   - Rock
   - Sound
   - RainManager
+  - Heart
   layers:
   - Default
   - TransparentFX
