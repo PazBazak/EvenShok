@@ -28,6 +28,7 @@ public class RainManager : MonoBehaviour
     public Text TimeBetweenSpawnsTxt;
     private float timeBetweenModes = 10f;
 
+    private float Score;
     private float Timer = 0;
     private int modesCount = 3;  //Number of modes excluding normal game and hell
     private int lastPrefabIndex = 0;
