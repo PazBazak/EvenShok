@@ -14,6 +14,8 @@ TagManager:
   - RainManager
   - Heart
   - AstroidLocation
+  - Astroid
+  - AstroidCollisionLocation
   layers:
   - Default
   - TransparentFX
@@ -26,7 +28,7 @@ TagManager:
   - Player
   - Obstacle
   - Ground
-  - 
+  - Astroid
   - 
   - 
   - 

@@ -121,6 +121,66 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &10474720
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 10474721}
+  m_Layer: 0
+  m_Name: SpawnableLoaction
+  m_TagString: AstroidCollisionLocation
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &10474721
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10474720}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 23, y: -6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 401301964}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &12549838
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 12549839}
+  m_Layer: 0
+  m_Name: SpawnableLoaction
+  m_TagString: AstroidCollisionLocation
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &12549839
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 12549838}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3, y: -6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 401301964}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &193317077
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,9 +503,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a6e55b4edd6f35148ade9f80762606d2, type: 3}
   - {fileID: 21300000, guid: a8e5e367e0d31ab4491e9eb2d229157d, type: 3}
   pictureTypeListColor:
-  - {fileID: 21300000, guid: 8cf81b937a73e4e4cbbeab5a93e2734b, type: 3}
-  - {fileID: 21300000, guid: 279aaf02ecb42804ea0d9b66baf5fcc7, type: 3}
-  - {fileID: 21300000, guid: e2cdddd808cfddc479664d050f7fa058, type: 3}
+  - {fileID: 21300000, guid: e693690517651b245814a89fbbd4d796, type: 3}
+  - {fileID: 21300000, guid: be3ad58efdcca4145b2efbcaa609d3a0, type: 3}
+  - {fileID: 21300000, guid: 71c3b248b3f85744e89fa776eec44555, type: 3}
   dashEffect: {fileID: 485970023}
   deathMenu: {fileID: 592084700}
   scoreTxt: {fileID: 1625785966}
@@ -703,6 +763,42 @@ Transform:
   m_Father: {fileID: 1342534880}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &401301963
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 401301964}
+  m_Layer: 0
+  m_Name: ManagerOfAstroidCollisions
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &401301964
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401301963}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -13.8, y: 0.99, z: -0.1775323}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 12549839}
+  - {fileID: 779701728}
+  - {fileID: 1728871815}
+  - {fileID: 1695944269}
+  - {fileID: 446563717}
+  - {fileID: 10474721}
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &439176267
 GameObject:
   m_ObjectHideFlags: 0
@@ -781,6 +877,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 439176267}
   m_CullTransparentMesh: 0
+--- !u!1 &446563716
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 446563717}
+  m_Layer: 0
+  m_Name: SpawnableLoaction
+  m_TagString: AstroidCollisionLocation
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &446563717
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446563716}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 19, y: -6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 401301964}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &462100273
 GameObject:
   m_ObjectHideFlags: 0
@@ -1540,9 +1666,9 @@ MonoBehaviour:
   TextRock: {fileID: 21300000, guid: e0394059f185ff242973e317b61dc20a, type: 3}
   TextPaper: {fileID: 21300000, guid: 077cb076ad4a93941bd84de4172f9324, type: 3}
   TextScissors: {fileID: 21300000, guid: 697de7b5dc29f3a419d2a586aaf200d8, type: 3}
-  ColorRock: {fileID: 21300000, guid: 9f71320709b5ad34bb03fb9610f06027, type: 3}
-  ColorPaper: {fileID: 21300000, guid: 9f71320709b5ad34bb03fb9610f06027, type: 3}
-  ColorScissors: {fileID: 21300000, guid: 9f71320709b5ad34bb03fb9610f06027, type: 3}
+  ColorRock: {fileID: 21300000, guid: faeebf33d3e0d674abb4874cb9ecf2b2, type: 3}
+  ColorPaper: {fileID: 21300000, guid: 8eaca1a596e2e8c43b94be3811681817, type: 3}
+  ColorScissors: {fileID: 21300000, guid: cb288cd5cec545d4db836a69d37fdfa0, type: 3}
 --- !u!1 &771590919
 GameObject:
   m_ObjectHideFlags: 0
@@ -1603,6 +1729,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1342534880}
   m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &779701727
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 779701728}
+  m_Layer: 0
+  m_Name: SpawnableLoaction
+  m_TagString: AstroidCollisionLocation
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &779701728
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779701727}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 7, y: -6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 401301964}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &789008469
 GameObject:
@@ -3348,6 +3504,36 @@ Transform:
   m_Father: {fileID: 225310141}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1695944268
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1695944269}
+  m_Layer: 0
+  m_Name: SpawnableLoaction
+  m_TagString: AstroidCollisionLocation
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1695944269
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695944268}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 15, y: -6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 401301964}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1704328402
 GameObject:
   m_ObjectHideFlags: 0
@@ -3413,6 +3599,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1728871814
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1728871815}
+  m_Layer: 0
+  m_Name: SpawnableLoaction
+  m_TagString: AstroidCollisionLocation
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1728871815
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728871814}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 11, y: -6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 401301964}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1769883545
 GameObject:

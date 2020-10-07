@@ -33,8 +33,8 @@ public class RainManager : MonoBehaviour
     public Text TimeBetweenSpawnsTxt;
     private float timeBetweenModes = 10f;
 
-    private int minAstroidTime = 5;
-    private int maxAstroidTime = 10;
+    private int minAstroidTime = 1;
+    private int maxAstroidTime = 3;
 
     private float Score;
     private float Timer = 0;
@@ -115,6 +115,8 @@ public class RainManager : MonoBehaviour
         }
     }
 
+
+
     private GameObject SpawnedObject()
     {
         GameObject spawnedObject;
@@ -126,6 +128,9 @@ public class RainManager : MonoBehaviour
         spawnedObject.transform.SetParent(CanvasRef);
 
         spawnedObject.AddComponent<DestroyOnGround>();
+        
+        // 9 = Obstacle Layer
+        spawnedObject.layer = 9;
         return spawnedObject;
     }
 

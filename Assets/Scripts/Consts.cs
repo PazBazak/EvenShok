@@ -15,6 +15,7 @@ namespace Assets.Scripts
         
         public const string SPAWN_LOCATION = "SpawnLocation";
         public const string SPAWN_LOCATION_ASTROIDS = "AstroidLocation";
+        public const string COLLISION_LOCATION_ASTROIDS_TAG = "AstroidCollisionLocation";
         public const string ASTROID_TAG = "Astroid";
         public const string PLAYER = "Player";
         public const string ROCK = "Rock";
