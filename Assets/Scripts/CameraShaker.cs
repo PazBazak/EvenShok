@@ -54,6 +54,11 @@ public class CameraShaker : MonoBehaviour
         StartCoroutine(Shake(Consts.durationHardShake, Consts.xPowerHardShake, Consts.yPowerHardShake));
     }
 
+    public void AstroidCameraShake()
+    {
+        StartCoroutine(Shake(Consts.durationAstroidShake, Consts.xPowerAstroidShake, Consts.yPowerAstroidShake));
+    }
+
 
     public void HellCameraShake()
     {

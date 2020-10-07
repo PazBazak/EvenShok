@@ -215,7 +215,7 @@ public class RainManager : MonoBehaviour
 
             GameObject spawnedAstroid;
             spawnedAstroid = Instantiate(astroidObject, locationsToSpawnAstroids[MyRandom(locationsToSpawnAstroids.Length, ref lastSpawnedIndex)].transform.position, Quaternion.identity) as GameObject;
-            spawnedAstroid.AddComponent<DestroyOnGround>();
+            spawnedAstroid.AddComponent<AstroidScript>();
             spawnedAstroid.transform.SetParent(CanvasRef);
         }
     }
