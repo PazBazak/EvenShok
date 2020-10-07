@@ -53,20 +53,15 @@ public class Player : MonoBehaviour
     // Holding refrence to the dash effect
     public GameObject dashEffect;
     
-    public bool isDead;
     public DeathMenu deathMenu;
-    public float score;
     public Text scoreTxt;
     public Text timeText;
-    private int lives = 3;
 
     private int currentModeRef; // 0 = NormalGame, 10 = HellGame, 1 = TextGame, 2 = NumberGame, 3 = ColorGame, 4 = HandSignGame ** 
     private int startCurrentModeRef;
 
     protected Joystick Joystick;
     protected DashButton DashJoybutton;
-
-    public Image[] heartPictures = new Image[3];
 
     private float direction;
     public Consts.DashState dashState;
@@ -95,7 +90,7 @@ public class Player : MonoBehaviour
         cameraShakerScripts = Camera.main.GetComponent<CameraShaker>();
 
         // At the start the player is alive
-        isDead = false;
+        GameManager.Instance().Restart();
 
         playerRendered = GetComponent<SpriteRenderer>();
 
@@ -132,11 +127,8 @@ public class Player : MonoBehaviour
     {
 
         // As long as the player is not dead, update score and enable movement
-        if (!isDead)
+        if (!GameManager.Instance().IsDead)
         {
-            // Updates score
-            score += Time.fixedDeltaTime;
-
             // Controls movement
             Movements();
 
@@ -153,10 +145,11 @@ public class Player : MonoBehaviour
         // Else dont display hearts
         else
         {
-            for (int index = 2; index > -1; index--)
+            foreach (GameObject heart in GameManager.Instance().HeartPictures)
             {
-                heartPictures[index].gameObject.SetActive(false);
+                heart.GetComponent<Image>().enabled = false;
             }
+
             moveJoystick.gameObject.SetActive(false);
         }
 
@@ -164,13 +157,13 @@ public class Player : MonoBehaviour
         DisplayLives();
 
         // If the player broke the high score, update the high score
-        if (score > PlayerPrefs.GetFloat(Consts.HIGH_SCORE))
+        if (GameManager.Instance().Score > PlayerPrefs.GetFloat(Consts.HIGH_SCORE))
         {
-            PlayerPrefs.SetFloat(Consts.HIGH_SCORE, score);
+            PlayerPrefs.SetFloat(Consts.HIGH_SCORE, GameManager.Instance().Score);
         }
 
-        scoreTxt.text = Consts.TIME_SURVIVED + (int)score;
-        timeText.text = Consts.TIME + (int)score;
+        scoreTxt.text = Consts.TIME_SURVIVED + (int)GameManager.Instance().Score;
+        timeText.text = Consts.TIME + (int)GameManager.Instance().TimePassed;
     }
 
     private Sprite[] GetModeSprites(int modeNum)
@@ -218,11 +211,11 @@ public class Player : MonoBehaviour
         // If the are equal --lives
         else if (currentPlayer == currentEnemy)
         {
-            lives--;
+            GameManager.Instance().Lives--;
             cameraShakerScripts.CollisionCameraShake();
-            if (lives == 0)
+            if (GameManager.Instance().Lives == 0)
             {
-                isDead = true;
+                Death();
             }
         }
         else if (currentPlayer == PossibleType.Scissors && currentEnemy == PossibleType.Rock)
@@ -230,7 +223,7 @@ public class Player : MonoBehaviour
             Death();
         }
 
-        if (!isDead)
+        if (!GameManager.Instance().IsDead)
         {
             Destroy(collisionObject.gameObject);
         }
@@ -241,17 +234,17 @@ public class Player : MonoBehaviour
     /// </summary>
     private void DisplayLives()
     {
-        switch (lives)
+        switch (GameManager.Instance().Lives)
         {
             case 0:
-                heartPictures[0].gameObject.SetActive(false);
+                GameManager.Instance().HeartPictures[0].GetComponent<Image>().enabled = false;
                 Death();
                 break;
             case 1:
-                heartPictures[1].gameObject.SetActive(false);
+                GameManager.Instance().HeartPictures[1].GetComponent<Image>().enabled = false;
                 break;
             case 2:
-                heartPictures[2].gameObject.SetActive(false);
+                GameManager.Instance().HeartPictures[2].GetComponent<Image>().enabled = false;
                 break;
         }
     }
@@ -331,7 +324,7 @@ public class Player : MonoBehaviour
 
     private void Death()
     {
-        isDead = true;
+        GameManager.Instance().IsDead = true;
         deathMenu.ToggleEndMenu();
     }
 
