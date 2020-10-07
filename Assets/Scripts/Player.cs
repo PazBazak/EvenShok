@@ -112,7 +112,7 @@ public class Player : MonoBehaviour
         // Get refrence to Ground Layer (like tagging)
         ground = LayerMask.GetMask(Consts.GROUND);
 
-        startCurrentModeRef = GameObject.Find("MapManager").GetComponent<RainManager>().activeMode;
+        startCurrentModeRef = GameManager.Instance().Mode;
     }
 
     private void Update()
@@ -132,7 +132,7 @@ public class Player : MonoBehaviour
             // Controls movement
             Movements();
 
-            currentModeRef = GameObject.Find("MapManager").GetComponent<RainManager>().activeMode;
+            currentModeRef = GameManager.Instance().Mode;
 
             if (currentModeRef != startCurrentModeRef)
             {
@@ -163,7 +163,7 @@ public class Player : MonoBehaviour
         }
 
         scoreTxt.text = Consts.TIME_SURVIVED + (int)GameManager.Instance().Score;
-        timeText.text = Consts.TIME + (int)GameManager.Instance().TimePassed;
+        timeText.text = Consts.TIME + (int)GameManager.Instance().Score;
     }
 
     private Sprite[] GetModeSprites(int modeNum)
