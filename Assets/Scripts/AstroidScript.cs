@@ -2,19 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts;
+using Random = System.Random;
+
 
 public class AstroidScript : MonoBehaviour
 {
 
     private CameraShaker cameraShakerScripts;
-    private int astroidDirection;
     private float startXPosition;
+    private bool isFacingLeft;
+    private GameObject[] locationsToSpawnAstroids;
+    private int forceDirection;
 
     // Start is called before the first frame update
     void Start()
     {
         cameraShakerScripts = Camera.main.GetComponent<CameraShaker>();
         startXPosition = transform.position.x;
+
+        forceDirection = startXPosition > 0 ? -250 : 250;
+
+        Random rnd = new Random();
+
+        gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(forceDirection, -250));
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -26,17 +36,4 @@ public class AstroidScript : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        if (transform.position.x <= -30)
-        {
-            astroidDirection = 10;
-        }
-        else
-        {
-            astroidDirection = -10;
-        }
-        Vector2 direction = new Vector2 (startXPosition + astroidDirection, 0);
-        transform.Translate(direction * Time.deltaTime);   //travel to last position
-    }
 }

@@ -69,8 +69,8 @@ namespace Assets.Scripts
         public const float xPowerCollisionShake = 0.44f;
         public const float yPowerCollisionShake = 0.24f;
 
-        public const float durationAstroidShake =1.3f;
-        public const float xPowerAstroidShake = 0.55f;
+        public const float durationAstroidShake =0.9f;
+        public const float xPowerAstroidShake = 0.51f;
         public const float yPowerAstroidShake = 0.31f;
 
 
