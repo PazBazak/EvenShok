@@ -213,7 +213,7 @@ public class RainManager : MonoBehaviour
 
     IEnumerator HandleAstroids()
     {
-        while (!isDeadHere)
+        while (!GameManager.Instance().IsDead)
         {
             Random rnd = new Random();
             yield return new WaitForSeconds(rnd.Next(minAstroidTime, maxAstroidTime));
