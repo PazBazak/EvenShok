@@ -33,8 +33,8 @@ public class RainManager : MonoBehaviour
     public Text TimeBetweenSpawnsTxt;
     private float timeBetweenModes = 10f;
 
-    private int minAstroidTime = 1;
-    private int maxAstroidTime = 3;
+    private int minAstroidTime = 5;
+    private int maxAstroidTime = 8;
 
     private float Score;
     private float Timer = 0;
@@ -232,32 +232,14 @@ public class RainManager : MonoBehaviour
         {
             GameManager.Instance().Mode = i;
             yield return new WaitForSeconds(timeBetweenModes);
-        }
-        StartCoroutine(HandleStage(GetRandomStageModes(modesCount)));
-    }
-
-    IEnumerator HandleRandomShakes(int minTime, int maxTime)
-    {
-        Random rnd = new Random();
-
-        while (!GameManager.Instance().IsDead)
-        {
-            yield return new WaitForSeconds(rnd.Next(minTime, maxTime));
-            switch (GameManager.Instance().Difficulty)
+            
+            if (minAstroidTime > 2)
             {
-                case 0:
-                    cameraShakerScripts.EasyCameraShake();
-                    break;
-
-                case 1:
-                    cameraShakerScripts.MediumCameraShake();
-                    break;
-
-                case 2:
-                    cameraShakerScripts.HardCameraShake();
-                    break;
+                minAstroidTime -= 1;
+                maxAstroidTime -= 1;
             }
         }
+        StartCoroutine(HandleStage(GetRandomStageModes(modesCount)));
     }
 
 

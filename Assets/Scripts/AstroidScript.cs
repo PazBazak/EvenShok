@@ -10,7 +10,6 @@ public class AstroidScript : MonoBehaviour
 
     private CameraShaker cameraShakerScripts;
     private float startXPosition;
-    private bool isFacingLeft;
     private GameObject[] locationsToSpawnAstroids;
     private int forceDirection;
 
@@ -20,6 +19,10 @@ public class AstroidScript : MonoBehaviour
         cameraShakerScripts = Camera.main.GetComponent<CameraShaker>();
         startXPosition = transform.position.x;
 
+        if (startXPosition > 0)
+        {
+            transform.Rotate(Vector3.forward * -90);
+        }
         forceDirection = startXPosition > 0 ? -250 : 250;
 
         Random rnd = new Random();
