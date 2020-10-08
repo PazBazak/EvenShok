@@ -325,6 +325,7 @@ GameObject:
   - component: {fileID: 251101489}
   - component: {fileID: 251101492}
   - component: {fileID: 251101493}
+  - component: {fileID: 251101494}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -430,7 +431,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveJoystick: {fileID: 990095210}
-  cameraShakerScripts: {fileID: 964315120}
   pictureTypeList:
   - {fileID: 21300000, guid: 7764ef621c3d35a439052a996aec3004, type: 3}
   - {fileID: 21300000, guid: 57d2ca58f27943248954d777f3b01d72, type: 3}
@@ -451,10 +451,6 @@ MonoBehaviour:
   deathMenu: {fileID: 592084700}
   scoreTxt: {fileID: 1625785966}
   timeText: {fileID: 728836766}
-  heartPictures:
-  - {fileID: 589968161}
-  - {fileID: 1519943690}
-  - {fileID: 2021539470}
   dashState: 0
 --- !u!61 &251101493
 BoxCollider2D:
@@ -482,6 +478,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.0969962, y: 1.01}
   m_EdgeRadius: 0
+--- !u!114 &251101494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251101488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 507dba1a18667d443b16895776306848, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostDelay: 0.1
+  ghostPrefab: {fileID: 6359301424447395768, guid: 90cf400557d097543a42667c97b89779,
+    type: 3}
+  GhostsParent: {fileID: 2025427455}
+  makeGhost: 0
 --- !u!1 &261915960
 GameObject:
   m_ObjectHideFlags: 0
@@ -1528,7 +1541,6 @@ MonoBehaviour:
   - {fileID: 1734874117447658, guid: f868dca5c5a8a3b42836b079c4c8a8e4, type: 3}
   cameraShakerScripts: {fileID: 964315120}
   TimeBetweenSpawnsTxt: {fileID: 961284810}
-  activeMode: 0
   CanvasRef: {fileID: 833950092}
   NumberRock: {fileID: 21300000, guid: 2dfd52f7eae83fe42ad7480886d568a7, type: 3}
   NumberPaper: {fileID: 21300000, guid: a6e55b4edd6f35148ade9f80762606d2, type: 3}
@@ -1870,7 +1882,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 833950091}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 29.805376, y: -4.2634273, z: 1.1609477}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3794,6 +3806,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2021539468}
   m_CullTransparentMesh: 0
+--- !u!1 &2025427454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2025427455}
+  m_Layer: 0
+  m_Name: Ghosts
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2025427455
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025427454}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2033604548
 GameObject:
   m_ObjectHideFlags: 0

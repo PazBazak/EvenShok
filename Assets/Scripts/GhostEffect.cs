@@ -20,7 +20,7 @@ public class GhostEffect : MonoBehaviour
     // defining if it should create ghosts
     public bool makeGhost = false;
 
-    private float animationTime = 1f;
+    private float animationTime = 0.5f;
 
     // Start is called before the first frame update
     void Start()
