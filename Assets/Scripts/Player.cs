@@ -34,6 +34,8 @@ public class Player : MonoBehaviour
 
     private CameraShaker cameraShakerScripts;
 
+    private GhostEffect ghostEffect;
+
     // 1==Rock || 2==Paper || 3=Scissors
     private int randomType;
 
@@ -88,6 +90,8 @@ public class Player : MonoBehaviour
         DashJoybutton = FindObjectOfType<DashButton>();
 
         cameraShakerScripts = Camera.main.GetComponent<CameraShaker>();
+
+        ghostEffect = gameObject.GetComponent<GhostEffect>();
 
         // At the start the player is alive
         GameManager.Instance().Restart();
@@ -257,6 +261,16 @@ public class Player : MonoBehaviour
 
         // Player going left/right by the inputs
         myPlayer.velocity = new Vector2(horizontal * Consts.speed, myPlayer.velocity.y);
+
+        if (horizontal != 0)
+        {
+            ghostEffect.makeGhost = true;
+        }
+        
+        else
+        {
+            ghostEffect.makeGhost = false;
+        }
 
         ChangeDirection();
     }
