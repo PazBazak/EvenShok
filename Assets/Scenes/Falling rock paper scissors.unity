@@ -490,7 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 507dba1a18667d443b16895776306848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ghostDelay: 0.1
+  ghostDelay: 0.02
   ghostPrefab: {fileID: 6359301424447395768, guid: 90cf400557d097543a42667c97b89779,
     type: 3}
   GhostsParent: {fileID: 2025427455}
