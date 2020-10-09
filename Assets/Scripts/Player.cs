@@ -36,6 +36,10 @@ public class Player : MonoBehaviour
 
     private GhostEffect ghostEffect;
 
+    private float invincbleTime = 3f;
+
+    private bool isInvincble = false;
+
     // 1==Rock || 2==Paper || 3=Scissors
     private int randomType;
 
@@ -208,21 +212,23 @@ public class Player : MonoBehaviour
     private void WinLoseTie(PossibleType currentPlayer, PossibleType currentEnemy, Collision2D collisionObject)
     {
         // If the enemy is bigger than the player by one, call death function
-        if (currentPlayer == currentEnemy - 1)
+        if (currentPlayer == currentEnemy - 1 && !isInvincble)
         {
             Death();
         }
         // If the are equal --lives
-        else if (currentPlayer == currentEnemy)
+        else if (currentPlayer == currentEnemy && !isInvincble)
         {
             GameManager.Instance().Lives--;
             cameraShakerScripts.CollisionCameraShake();
+            isInvincble = true;
+            StartCoroutine(InvincbleCooldown());
             if (GameManager.Instance().Lives == 0)
             {
                 Death();
             }
         }
-        else if (currentPlayer == PossibleType.Scissors && currentEnemy == PossibleType.Rock)
+        else if (currentPlayer == PossibleType.Scissors && currentEnemy == PossibleType.Rock && !isInvincble)
         {
             Death();
         }
@@ -330,6 +336,15 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(Consts.dashCooldownTime);
         dashState = Consts.DashState.Ready;
+    }
+
+    /// <summary>
+    /// Responsible for invincble cooldown
+    /// </summary>
+    IEnumerator InvincbleCooldown()
+    {
+        yield return new WaitForSeconds(invincbleTime);
+        isInvincble = false;
     }
 
     /// <summary>
