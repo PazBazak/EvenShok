@@ -386,6 +386,7 @@ GameObject:
   - component: {fileID: 251101492}
   - component: {fileID: 251101493}
   - component: {fileID: 251101494}
+  - component: {fileID: 251101495}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -555,6 +556,25 @@ MonoBehaviour:
     type: 3}
   GhostsParent: {fileID: 2025427455}
   makeGhost: 0
+--- !u!95 &251101495
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251101488}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 440aa328f4df6854fa2816db58943108, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &261915960
 GameObject:
   m_ObjectHideFlags: 0
@@ -811,7 +831,7 @@ Transform:
   - {fileID: 446563717}
   - {fileID: 10474721}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &439176267
 GameObject:
@@ -4330,7 +4350,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2033604548
 GameObject:

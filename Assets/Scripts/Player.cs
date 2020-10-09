@@ -40,6 +40,8 @@ public class Player : MonoBehaviour
 
     private bool isInvincble = false;
 
+    private Animator playerAnim;
+
     // 1==Rock || 2==Paper || 3=Scissors
     private int randomType;
 
@@ -96,6 +98,9 @@ public class Player : MonoBehaviour
         cameraShakerScripts = Camera.main.GetComponent<CameraShaker>();
 
         ghostEffect = gameObject.GetComponent<GhostEffect>();
+
+        playerAnim = GetComponent<Animator>();
+        
 
         // At the start the player is alive
         GameManager.Instance().Restart();
@@ -221,8 +226,11 @@ public class Player : MonoBehaviour
         {
             GameManager.Instance().Lives--;
             cameraShakerScripts.CollisionCameraShake();
+
             isInvincble = true;
+            playerAnim.SetBool("isInvincble", true);
             StartCoroutine(InvincbleCooldown());
+
             if (GameManager.Instance().Lives == 0)
             {
                 Death();
@@ -345,6 +353,7 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(invincbleTime);
         isInvincble = false;
+        playerAnim.SetBool("isInvincble", false);
     }
 
     /// <summary>
