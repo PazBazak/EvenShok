@@ -34,6 +34,8 @@ public class Player : MonoBehaviour
 
     private CameraShaker cameraShakerScripts;
 
+    private GhostEffect ghostEffect;
+
     // 1==Rock || 2==Paper || 3=Scissors
     private int randomType;
 
@@ -88,6 +90,8 @@ public class Player : MonoBehaviour
         DashJoybutton = FindObjectOfType<DashButton>();
 
         cameraShakerScripts = Camera.main.GetComponent<CameraShaker>();
+
+        ghostEffect = gameObject.GetComponent<GhostEffect>();
 
         // At the start the player is alive
         GameManager.Instance().Restart();
@@ -298,6 +302,9 @@ public class Player : MonoBehaviour
                 // If the F was pressed
                 if (isDashKeyDown)
                 {
+                    // Starts making ghosts
+                    ghostEffect.makeGhost = true;
+
                     // Checks the direction the player is facing
                     direction = isFacingRight ? 1f : -1f;
 
@@ -308,6 +315,9 @@ public class Player : MonoBehaviour
 
                     // Starts a cooldown timer
                     StartCoroutine(DashCooldown());
+
+                    // Starts a ghost timer
+                    StartCoroutine(GhostTime());
                 }
                 break;
         }
@@ -320,6 +330,17 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(Consts.dashCooldownTime);
         dashState = Consts.DashState.Ready;
+    }
+
+    /// <summary>
+    /// Responsible for dashing ghosts time
+    /// </summary>
+    IEnumerator GhostTime()
+    {
+        yield return new WaitForSeconds(0.15f);
+
+        // Stops making ghosts
+        ghostEffect.makeGhost = false;
     }
 
     private void Death()
