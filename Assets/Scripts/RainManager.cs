@@ -19,7 +19,12 @@ public class RainManager : MonoBehaviour
     // Array of empty objects to indicate where the rain can possible come from
     private GameObject[] locationsToSpawn;
 
+    // Array of empty objects to indicate where the astroids can possible come from
+    private GameObject[] locationsToSpawnAstroids;
+
     public GameObject[] objectToSpawn;
+
+    public GameObject astroidObject;
 
     public CameraShaker cameraShakerScripts;
 
@@ -27,6 +32,9 @@ public class RainManager : MonoBehaviour
     private float timeBetweenSpawns = 0.16f;
     public Text TimeBetweenSpawnsTxt;
     private float timeBetweenModes = 10f;
+
+    private int minAstroidTime = 5;
+    private int maxAstroidTime = 8;
 
     private float Score;
     private float Timer = 0;
@@ -36,6 +44,7 @@ public class RainManager : MonoBehaviour
     private int lastDiffIndex = -1;
 
     public Transform CanvasRef;
+
     public Sprite NumberRock;// 1
     public Sprite NumberPaper;// 4
     public Sprite NumberScissors;// 7
@@ -51,6 +60,8 @@ public class RainManager : MonoBehaviour
     public Sprite ColorRock;// black
     public Sprite ColorPaper;// pink
     public Sprite ColorScissors;// orange
+
+    private 
 
     #endregion
 
@@ -72,9 +83,11 @@ public class RainManager : MonoBehaviour
         // Get a refrebce of all the empty game objects tagged with SpawnLocation
         locationsToSpawn = GameObject.FindGameObjectsWithTag(Consts.SPAWN_LOCATION);
 
+        locationsToSpawnAstroids = GameObject.FindGameObjectsWithTag(Consts.SPAWN_LOCATION_ASTROIDS);
+
         StartCoroutine(HandleStage(GetRandomStageModes(modesCount)));
         StartCoroutine(HandleDifficulities(GetRandomDifficulities()));
-        StartCoroutine(HandleRandomShakes(4, 10));
+        StartCoroutine(HandleAstroids());
     }
 
     public void HandleObjectsArray()
@@ -102,6 +115,8 @@ public class RainManager : MonoBehaviour
         }
     }
 
+
+
     private GameObject SpawnedObject()
     {
         GameObject spawnedObject;
@@ -113,6 +128,9 @@ public class RainManager : MonoBehaviour
         spawnedObject.transform.SetParent(CanvasRef);
 
         spawnedObject.AddComponent<DestroyOnGround>();
+        
+        // 9 = Obstacle Layer
+        spawnedObject.layer = 9;
         return spawnedObject;
     }
 
@@ -193,6 +211,20 @@ public class RainManager : MonoBehaviour
         StartCoroutine(HandleDifficulities(GetRandomDifficulities()));
     }
 
+    IEnumerator HandleAstroids()
+    {
+        while (!GameManager.Instance().IsDead)
+        {
+            Random rnd = new Random();
+            yield return new WaitForSeconds(rnd.Next(minAstroidTime, maxAstroidTime));
+
+            GameObject spawnedAstroid;
+            spawnedAstroid = Instantiate(astroidObject, locationsToSpawnAstroids[MyRandom(locationsToSpawnAstroids.Length, ref lastSpawnedIndex)].transform.position, Quaternion.identity) as GameObject;
+            spawnedAstroid.AddComponent<AstroidScript>();
+            spawnedAstroid.transform.SetParent(CanvasRef);
+        }
+    }
+
 
     IEnumerator HandleStage(int[] CurrentStage)
     {
@@ -200,32 +232,14 @@ public class RainManager : MonoBehaviour
         {
             GameManager.Instance().Mode = i;
             yield return new WaitForSeconds(timeBetweenModes);
-        }
-        StartCoroutine(HandleStage(GetRandomStageModes(modesCount)));
-    }
-
-    IEnumerator HandleRandomShakes(int minTime, int maxTime)
-    {
-        Random rnd = new Random();
-
-        while (!GameManager.Instance().IsDead)
-        {
-            yield return new WaitForSeconds(rnd.Next(minTime, maxTime));
-            switch (GameManager.Instance().Difficulty)
+            
+            if (minAstroidTime > 2)
             {
-                case 0:
-                    cameraShakerScripts.EasyCameraShake();
-                    break;
-
-                case 1:
-                    cameraShakerScripts.MediumCameraShake();
-                    break;
-
-                case 2:
-                    cameraShakerScripts.HardCameraShake();
-                    break;
+                minAstroidTime -= 1;
+                maxAstroidTime -= 1;
             }
         }
+        StartCoroutine(HandleStage(GetRandomStageModes(modesCount)));
     }
 
 
