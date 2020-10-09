@@ -35,6 +35,7 @@ namespace Assets.Scripts
         public const string MEDIUM_DIFF = "Medium";
         public const string HARD_DIFF = "Hard";
         public const string HELL_DIFF = "HELL";
+        public const string IS_INVINCBLE = "isInvincble";
 
         // Game difficulities values
         public const float easyDifficulity = 0.13f;
@@ -45,8 +46,8 @@ namespace Assets.Scripts
         // Speed of player
         public const float speed = 7.2f;
 
-        // Jumpheight
-        public const float JumpForce = 7f;
+        //Invicbility time
+        public const float invincbleTime = 3f;
 
         // Camera Shake
         public const float durationEasyShake = 0.35f;

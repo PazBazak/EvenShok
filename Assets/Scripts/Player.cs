@@ -36,8 +36,6 @@ public class Player : MonoBehaviour
 
     private GhostEffect ghostEffect;
 
-    private float invincbleTime = 3f;
-
     private bool isInvincble = false;
 
     private Animator playerAnim;
@@ -228,7 +226,7 @@ public class Player : MonoBehaviour
             cameraShakerScripts.CollisionCameraShake();
 
             isInvincble = true;
-            playerAnim.SetBool("isInvincble", true);
+            playerAnim.SetBool(Consts.IS_INVINCBLE, true);
             StartCoroutine(InvincbleCooldown());
 
             if (GameManager.Instance().Lives == 0)
@@ -351,9 +349,9 @@ public class Player : MonoBehaviour
     /// </summary>
     IEnumerator InvincbleCooldown()
     {
-        yield return new WaitForSeconds(invincbleTime);
+        yield return new WaitForSeconds(Consts.invincbleTime);
         isInvincble = false;
-        playerAnim.SetBool("isInvincble", false);
+        playerAnim.SetBool(Consts.IS_INVINCBLE, false);
     }
 
     /// <summary>
