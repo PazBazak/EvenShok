@@ -14,6 +14,9 @@ namespace Assets.Scripts
         #region Consts
         
         public const string SPAWN_LOCATION = "SpawnLocation";
+        public const string SPAWN_LOCATION_ASTROIDS = "AstroidLocation";
+        public const string COLLISION_LOCATION_ASTROIDS_TAG = "AstroidCollisionLocation";
+        public const string ASTROID_TAG = "Astroid";
         public const string PLAYER = "Player";
         public const string ROCK = "Rock";
         public const string PAPER = "Paper";
@@ -65,6 +68,10 @@ namespace Assets.Scripts
         public const float durationCollisionShake = 0.53f;
         public const float xPowerCollisionShake = 0.44f;
         public const float yPowerCollisionShake = 0.24f;
+
+        public const float durationAstroidShake =0.9f;
+        public const float xPowerAstroidShake = 0.51f;
+        public const float yPowerAstroidShake = 0.31f;
 
 
         // Dash related
