@@ -61,6 +61,8 @@ public class RainManager : MonoBehaviour
     public Sprite ColorPaper;// pink
     public Sprite ColorScissors;// orange
 
+    private bool isInTimeout = false;
+
     private 
 
     #endregion
@@ -74,7 +76,11 @@ public class RainManager : MonoBehaviour
 
     void Update()
     {
-        HandleObjectsArray();
+        HandleTimeout();
+        if (!isInTimeout)
+        {
+            HandleObjectsArray();
+        }
     }
 
 
@@ -88,6 +94,26 @@ public class RainManager : MonoBehaviour
         StartCoroutine(HandleStage(GetRandomStageModes(modesCount)));
         StartCoroutine(HandleDifficulities(GetRandomDifficulities()));
         StartCoroutine(HandleAstroids());
+    }
+
+    private void HandleTimeout()
+    {
+        if ((int)GameManager.Instance().Score % 10 == 0 && (int)GameManager.Instance().Score > 1 && !isInTimeout)
+        {
+            Debug.Log("Triggered");
+            isInTimeout = true;
+            Invoke("AddScore", 3.0f);
+            Invoke("SetTimeout", 3.0f);
+        }
+    }
+
+    void SetTimeout()
+    {
+        isInTimeout = false;
+    }
+    void AddScore()
+    {
+        GameManager.Instance().Score += 1f;
     }
 
     public void HandleObjectsArray()
