@@ -201,13 +201,21 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collisionObject)
     {
-        if (!collisionObject.gameObject.tag.Equals(Consts.GROUND))
+        switch (collisionObject.gameObject.tag)
         {
-            // Converting gameObject.tag(string) to PlayerType
-            PossibleType enemyType;
-            System.Enum.TryParse(collisionObject.gameObject.tag, out enemyType);
-            currentEnemy = possibleTypeList.FirstOrDefault(x => x.ToString().Equals(collisionObject.gameObject.tag));
-            WinLoseTie(currentPlayer, currentEnemy, collisionObject);
+            case Consts.TELEPORT_WALL:
+                break;
+
+            case Consts.GROUND:
+                break;
+
+            default:
+                // Converting gameObject.tag(string) to PlayerType
+                PossibleType enemyType;
+                System.Enum.TryParse(collisionObject.gameObject.tag, out enemyType);
+                currentEnemy = possibleTypeList.FirstOrDefault(x => x.ToString().Equals(collisionObject.gameObject.tag));
+                WinLoseTie(currentPlayer, currentEnemy, collisionObject);
+                break;
         }
     }
 
