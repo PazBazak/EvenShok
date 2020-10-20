@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +16,8 @@ public class GameManager
     private float _timePassed;
     private float _score;
     private GameObject[] _heartPictures;
-    private static GameManager _instance; 
+    private static GameManager _instance;
+    private Stopwatch _gameStopwatch;
 
     #endregion
 
@@ -105,6 +107,18 @@ public class GameManager
         }
     }
 
+    public Stopwatch GameStopwatch
+    {
+        get
+        {
+            return _gameStopwatch;
+        }
+        set
+        {
+            _gameStopwatch = value;
+        }
+    }
+
     #endregion
 
     #region Constructor
@@ -115,6 +129,7 @@ public class GameManager
         Score = 0;
         TimePassed = 0;
         HeartPictures = GameObject.FindGameObjectsWithTag("Heart");
+        GameStopwatch = new Stopwatch();
     }
 
     #endregion

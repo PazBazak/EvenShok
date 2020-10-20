@@ -8,6 +8,7 @@ using System;
 using UnityRandom = UnityEngine.Random;
 using Random = System.Random;
 using System.Threading;
+using System.Threading.Tasks;
 
 /// <summary>
 /// Managing rain of enemies
@@ -38,6 +39,7 @@ public class RainManager : MonoBehaviour
 
     private float Score;
     private float Timer = 0;
+    private bool flaggy = false;
     private int modesCount = 3;  //Number of modes excluding normal game and hell
     private int lastPrefabIndex = 0;
     private int lastSpawnedIndex = 0;
@@ -61,7 +63,7 @@ public class RainManager : MonoBehaviour
     public Sprite ColorPaper;// pink
     public Sprite ColorScissors;// orange
 
-    private 
+    private
 
     #endregion
 
@@ -70,6 +72,7 @@ public class RainManager : MonoBehaviour
     void Start()
     {
         HandleRain();
+        GameManager.Instance().GameStopwatch.Start();
     }
 
     void Update()
@@ -90,11 +93,18 @@ public class RainManager : MonoBehaviour
         StartCoroutine(HandleAstroids());
     }
 
-    public void HandleObjectsArray()
+    public async Task HandleObjectsArray()
     {
+        if ((int)GameManager.Instance().Score % 10 == 0 && (int)GameManager.Instance().Score > 1 && flaggy is false)
+        {
+            await Task.Delay(3000);
+            flaggy = true;
+        }
+
         if (!GameManager.Instance().IsDead)
         {
             Score += Time.deltaTime;
+            flaggy = false;
         }
 
         // The Score here is the same score as in player's script
@@ -128,7 +138,7 @@ public class RainManager : MonoBehaviour
         spawnedObject.transform.SetParent(CanvasRef);
 
         spawnedObject.AddComponent<DestroyOnGround>();
-        
+
         // 9 = Obstacle Layer
         spawnedObject.layer = 9;
         return spawnedObject;
@@ -173,6 +183,7 @@ public class RainManager : MonoBehaviour
     //        yield return new WaitForSeconds(3);
     //    }
     //}
+
 
     IEnumerator HandleDifficulities(int[] stageDifficulities)
     {
@@ -232,7 +243,7 @@ public class RainManager : MonoBehaviour
         {
             GameManager.Instance().Mode = i;
             yield return new WaitForSeconds(timeBetweenModes);
-            
+
             if (minAstroidTime > 2)
             {
                 minAstroidTime -= 1;
