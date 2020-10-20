@@ -33,7 +33,7 @@ public class RainManager : MonoBehaviour
     public Text TimeBetweenSpawnsTxt;
 
     // time between every mode change 
-    private float timeBetweenModes = 10f;
+    private float timeBetweenModes = 10f + 3.0f;
 
     private int minAstroidTime = 5;
     private int maxAstroidTime = 8;
@@ -114,6 +114,12 @@ public class RainManager : MonoBehaviour
     void AddScore()
     {
         GameManager.Instance().Score += 1f;
+        //Invoke("RemoveScore", 1.05f);
+    }
+    
+    void RemoveScore()
+    {
+        GameManager.Instance().Score -= 1f;
     }
 
     public void HandleObjectsArray()
