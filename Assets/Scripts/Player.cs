@@ -204,6 +204,7 @@ public class Player : MonoBehaviour
         switch (collisionObject.gameObject.tag)
         {
             case Consts.TELEPORT_WALL:
+                OnWallCollision();
                 break;
 
             case Consts.GROUND:
@@ -219,6 +220,19 @@ public class Player : MonoBehaviour
         }
     }
 
+    
+    private void OnWallCollision()
+    {
+        // if the player hits the left wall
+        if (gameObject.transform.position.x < 0)
+        {
+            gameObject.transform.position = new Vector3(9, gameObject.transform.position.y, gameObject.transform.position.z);
+        } 
+        else
+        {
+            gameObject.transform.position = new Vector3(-9, gameObject.transform.position.y, gameObject.transform.position.z);
+        }
+    }
 
     private void WinLoseTie(PossibleType currentPlayer, PossibleType currentEnemy, Collision2D collisionObject)
     {
