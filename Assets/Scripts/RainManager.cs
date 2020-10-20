@@ -31,6 +31,8 @@ public class RainManager : MonoBehaviour
     // Time between another object to spawn 
     private float timeBetweenSpawns = 0.16f;
     public Text TimeBetweenSpawnsTxt;
+
+    // time between every mode change 
     private float timeBetweenModes = 10f;
 
     private int minAstroidTime = 5;
@@ -62,6 +64,7 @@ public class RainManager : MonoBehaviour
     public Sprite ColorScissors;// orange
 
     private bool isInTimeout = false;
+    private bool pazFlaggy = false;
 
     private 
 
@@ -77,10 +80,7 @@ public class RainManager : MonoBehaviour
     void Update()
     {
         HandleTimeout();
-        if (!isInTimeout)
-        {
-            HandleObjectsArray();
-        }
+        HandleObjectsArray();
     }
 
 
@@ -118,26 +118,38 @@ public class RainManager : MonoBehaviour
 
     public void HandleObjectsArray()
     {
-        if (!GameManager.Instance().IsDead)
+        if (!isInTimeout)
         {
-            Score += Time.deltaTime;
-        }
+            pazFlaggy = false;
+            if (!GameManager.Instance().IsDead)
+            {
+                Score += Time.deltaTime;
+            }
 
-        // The Score here is the same score as in player's script
-        GameManager.Instance().Score = Score;
+            // The Score here is the same score as in player's script
+            GameManager.Instance().Score = Score;
 
-        // Counting seconds by adding the time it takes to finish frame each frame so it adds up to 1 second each real time second
-        Timer += Time.deltaTime;
+            // Counting seconds by adding the time it takes to finish frame each frame so it adds up to 1 second each real time second
+            Timer += Time.deltaTime;
 
-        // If the timer is bigger than the time between spawns
-        if (Timer > timeBetweenSpawns && !GameManager.Instance().IsDead)
+            // If the timer is bigger than the time between spawns
+            if (Timer > timeBetweenSpawns && !GameManager.Instance().IsDead)
+            {
+                // Resets the timer
+                Timer = 0;
+
+                GameObject spawnedObject = SpawnedObject();
+
+                HandleMode(GameManager.Instance().Mode, spawnedObject);
+            }
+        } 
+        else
         {
-            // Resets the timer
-            Timer = 0;
-
-            GameObject spawnedObject = SpawnedObject();
-
-            HandleMode(GameManager.Instance().Mode, spawnedObject);
+            if (!pazFlaggy)
+            {
+                Score += 1;
+                pazFlaggy = true;
+            }
         }
     }
 
@@ -160,45 +172,6 @@ public class RainManager : MonoBehaviour
         return spawnedObject;
     }
 
-    //IEnumerator HandleObjectsArray()
-    //{
-    //    while (true)
-    //    {
-    //        Timer = 0;
-
-    //        while (Timer < timeBetweenModes)
-    //        {
-    //            // The Score here is the same score as in player's script
-    //            GameManager.Instance().Score += Timer;
-
-    //            // Counting seconds by adding the time it takes to finish frame each frame so it adds up to 1 second each real time second
-    //            Timer += Time.deltaTime;
-
-    //            yield return new WaitForSeconds(timeBetweenSpawns);
-
-    //            // If the timer is bigger than the time between spawns
-    //            if (Timer > timeBetweenSpawns && !GameManager.Instance().IsDead)
-    //            {
-    //                GameObject spawnedObject;
-
-    //                // The spawned object is a copy of random object from ObjectsToSpawn var with the starting location of random empty game object from LocationsToSpawn with rotation to ground
-    //                spawnedObject = Instantiate(objectToSpawn[MyRandom(objectToSpawn.Length, ref lastPrefabIndex)], locationsToSpawn[MyRandom(locationsToSpawn.Length, ref lastSpawnedIndex)].transform.position, Quaternion.identity) as GameObject;
-
-    //                // Resets the timer
-    //                //Timer = 0;
-
-    //                // Making the clone child of object to be more orginized
-    //                spawnedObject.transform.SetParent(CanvasRef);
-
-    //                spawnedObject.AddComponent<DestroyOnGround>();
-
-    //                HandleMode(GameManager.Instance().Mode, spawnedObject);
-    //            }
-    //        }
-
-    //        yield return new WaitForSeconds(3);
-    //    }
-    //}
 
     IEnumerator HandleDifficulities(int[] stageDifficulities)
     {
