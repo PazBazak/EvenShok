@@ -16,6 +16,7 @@ TagManager:
   - AstroidLocation
   - Astroid
   - AstroidCollisionLocation
+  - TeleportWall
   layers:
   - Default
   - TransparentFX
@@ -29,7 +30,7 @@ TagManager:
   - Obstacle
   - Ground
   - Astroid
-  - 
+  - Wall
   - 
   - 
   - 
