@@ -226,11 +226,11 @@ public class Player : MonoBehaviour
         // if the player hits the left wall
         if (gameObject.transform.position.x < 0)
         {
-            gameObject.transform.position = new Vector3(9, gameObject.transform.position.y, gameObject.transform.position.z);
+            gameObject.transform.position = new Vector3(10, gameObject.transform.position.y, gameObject.transform.position.z);
         } 
         else
         {
-            gameObject.transform.position = new Vector3(-9, gameObject.transform.position.y, gameObject.transform.position.z);
+            gameObject.transform.position = new Vector3(-10, gameObject.transform.position.y, gameObject.transform.position.z);
         }
     }
 
