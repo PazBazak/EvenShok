@@ -48,10 +48,9 @@ public class Player : MonoBehaviour
     // Player sprite rendered refrence
     private SpriteRenderer playerRendered;
 
-    // Holding the rock/ paper/ scissors pictures
-    public Sprite[] pictureTypeList = new Sprite[3];
 
     // Holding the rock/ paper/ scissors pictures for different game modes
+    public Sprite[] pictureTypeList = new Sprite[3];
     public Sprite[] pictureTypeListText = new Sprite[3];
     public Sprite[] pictureTypeListNumber = new Sprite[3];
     public Sprite[] pictureTypeListColor = new Sprite[3];
@@ -106,7 +105,7 @@ public class Player : MonoBehaviour
         playerRendered = GetComponent<SpriteRenderer>();
 
         // Picking a starting charecter 
-        randomType = UnityEngine.Random.Range(0, 3);
+        randomType = Random.Range(0, 3);
 
         // CurrentPlayer equals to the PlayerType element at the random index
         currentPlayer = possibleTypeList.ElementAt(randomType);
@@ -145,11 +144,27 @@ public class Player : MonoBehaviour
 
             currentModeRef = GameManager.Instance().Mode;
 
-            if (currentModeRef != startCurrentModeRef)
+            if (currentModeRef != startCurrentModeRef || currentModeRef == 10)
             {
                 startCurrentModeRef = currentModeRef;
-                playerRendered.sprite = GetModeSprites(currentModeRef)[randomType];
-                myPlayer.gameObject.transform.localScale = new Vector3(1, 1, 1);
+                if (currentModeRef == 10)
+                {
+                    playerRendered.sprite = GetModeSprites(Random.Range(0, 3))[randomType];
+                } 
+                else
+                {
+                    playerRendered.sprite = GetModeSprites(currentModeRef)[randomType];
+                }
+              
+                // mode is not normal game
+                if (currentModeRef != 0)
+                {
+                    transform.rotation = Quaternion.Euler(180, transform.rotation.eulerAngles.y, 0);
+                }
+                else
+                {
+                    transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+                }
             }
         }
 
@@ -179,6 +194,7 @@ public class Player : MonoBehaviour
 
     private Sprite[] GetModeSprites(int modeNum)
     {
+
         switch (modeNum)
         {
             case 0:
@@ -192,6 +208,9 @@ public class Player : MonoBehaviour
 
             case 3:
                 return pictureTypeListColor;
+
+            //case 10:
+            //    return GetModeSprites(Random.Range(0, 3));
 
             default:
                 return pictureTypeList;
