@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     // If facing right or no
     private bool isFacingRight;
 
-    public GameObject moveJoystick; 
+    public GameObject moveJoystick;
 
     // The ground layer ref
     private LayerMask ground;
@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
 
     // Holding refrence to the dash effect
     public GameObject dashEffect;
-    
+
     public DeathMenu deathMenu;
     public Text scoreTxt;
     public Text timeText;
@@ -98,7 +98,7 @@ public class Player : MonoBehaviour
         ghostEffect = gameObject.GetComponent<GhostEffect>();
 
         playerAnim = GetComponent<Animator>();
-        
+
 
         // At the start the player is alive
         GameManager.Instance().Restart();
@@ -283,19 +283,19 @@ public class Player : MonoBehaviour
     private void ChangeDirection()
     {
         // If you go right but facing left or the oppsite then switch
-        if (horizontal > 0 && !isFacingRight || horizontal < 0 && isFacingRight)
+        if (horizontal < 0 && isFacingRight)
         {
             // Flipping boolean value
             isFacingRight = !isFacingRight;
 
-            // Getting refrence to X scale value
-            Vector3 PlayerScale = transform.localScale;
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        if (horizontal > 0 && !isFacingRight)
+        {
+            // Flipping boolean value
+            isFacingRight = !isFacingRight;
 
-            // Flipping the scale flips the direction
-            PlayerScale.x *= -1;
-
-            // Changing the real value
-            transform.localScale = PlayerScale;
+            transform.rotation = Quaternion.Euler(0, 0, 0);
         }
     }
 
