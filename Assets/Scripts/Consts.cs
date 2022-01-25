@@ -23,6 +23,7 @@ namespace Assets.Scripts
         public const string SCISSORS = "Scissors";
         public const string SOUND = "Sound";
         public const string GROUND = "Ground";
+        public const string TELEPORT_WALL = "TeleportWall";
         public const string MENU = "Menu";
         public const string HIGH_SCORE = "HighScore ";
         public const string TIME_SURVIVED = "Time survived : ";

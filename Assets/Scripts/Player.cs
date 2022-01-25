@@ -201,16 +201,38 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collisionObject)
     {
-        if (!collisionObject.gameObject.tag.Equals(Consts.GROUND))
+        switch (collisionObject.gameObject.tag)
         {
-            // Converting gameObject.tag(string) to PlayerType
-            PossibleType enemyType;
-            System.Enum.TryParse(collisionObject.gameObject.tag, out enemyType);
-            currentEnemy = possibleTypeList.FirstOrDefault(x => x.ToString().Equals(collisionObject.gameObject.tag));
-            WinLoseTie(currentPlayer, currentEnemy, collisionObject);
+            case Consts.TELEPORT_WALL:
+                OnWallCollision();
+                break;
+
+            case Consts.GROUND:
+                break;
+
+            default:
+                // Converting gameObject.tag(string) to PlayerType
+                PossibleType enemyType;
+                System.Enum.TryParse(collisionObject.gameObject.tag, out enemyType);
+                currentEnemy = possibleTypeList.FirstOrDefault(x => x.ToString().Equals(collisionObject.gameObject.tag));
+                WinLoseTie(currentPlayer, currentEnemy, collisionObject);
+                break;
         }
     }
 
+    
+    private void OnWallCollision()
+    {
+        // if the player hits the left wall
+        if (gameObject.transform.position.x < 0)
+        {
+            gameObject.transform.position = new Vector3(10, gameObject.transform.position.y, gameObject.transform.position.z);
+        } 
+        else
+        {
+            gameObject.transform.position = new Vector3(-10, gameObject.transform.position.y, gameObject.transform.position.z);
+        }
+    }
 
     private void WinLoseTie(PossibleType currentPlayer, PossibleType currentEnemy, Collision2D collisionObject)
     {
